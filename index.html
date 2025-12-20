@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ótica OWN - Orçamento de Lentes Oftálmicas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #7f8c8d;
+            --accent-color: #3498db;
+            --light-gray: #f5f7fa;
+            --medium-gray: #e0e0e0;
+            --dark-gray: #34495e;
+            --white: #ffffff;
+            --success-color: #27ae60;
+            --warning-color: #e74c3c;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--white);
+            padding: 20px 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+
+        .logo h1 {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .tagline {
+            text-align: center;
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background-color: var(--medium-gray);
+            border-radius: 3px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 14%;
+            transition: var(--transition);
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+        }
+
+        .step {
+            text-align: center;
+            flex: 1;
+        }
+
+        .step.active {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .step-content {
+            display: none;
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .step-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        h3 {
+            color: var(--dark-gray);
+            margin: 15px 0 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .required::after {
+            content: " *";
+            color: var(--warning-color);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group input {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-weight: normal;
+        }
+
+        .radio-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .radio-option {
+            border: 2px solid var(--medium-gray);
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .radio-option:hover {
+            border-color: var(--accent-color);
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+
+        .radio-option.selected {
+            border-color: var(--accent-color);
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        .radio-option input {
+            display: none;
+        }
+
+        .radio-option i {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .radio-option.selected i {
+            color: var(--accent-color);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            background-color: var(--accent-color);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #6c7a7d;
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+        }
+
+        .btn-success:hover {
+            background-color: #219653;
+        }
+
+        .btn-whatsapp {
+            background-color: #25D366;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #1da851;
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .eye-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .eye-section {
+            padding: 20px;
+            border-radius: 8px;
+            background-color: rgba(240, 240, 240, 0.5);
+        }
+
+        .eye-title {
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .warning-box {
+            background-color: #fff9e6;
+            border-left: 4px solid #f1c40f;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .info-box {
+            background-color: #e8f4fc;
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .option-card {
+            border: 1px solid var(--medium-gray);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .option-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .option-card.selected {
+            border-color: var(--accent-color);
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+
+        .summary {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed var(--medium-gray);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .summary-item.total {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            border-top: 2px solid var(--medium-gray);
+            margin-top: 15px;
+            padding-top: 15px;
+        }
+
+        .price {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            color: var(--secondary-color);
+            border-top: 1px solid var(--medium-gray);
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: #25D366;
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            background-color: #1da851;
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .logo h1 {
+                font-size: 1.8rem;
+            }
+            
+            .step-content {
+                padding: 20px;
+            }
+            
+            .eye-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .radio-options, .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-glasses"></i>
+                <h1>Ótica OWN</h1>
+            </div>
+            <p class="tagline">Orçamento personalizado de lentes oftálmicas</p>
+            
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <div class="step-indicator">
+                <div class="step active" id="step1-indicator">Identificação</div>
+                <div class="step" id="step2-indicator">Receita</div>
+                <div class="step" id="step3-indicator">Armação</div>
+                <div class="step" id="step4-indicator">Lentes</div>
+                <div class="step" id="step5-indicator">Resumo</div>
+                <div class="step" id="step6-indicator">Observações</div>
+                <div class="step" id="step7-indicator">WhatsApp</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Etapa 1: Identificação do Cliente -->
+        <section class="step-content active" id="step1">
+            <h2>Identificação do Cliente</h2>
+            <p>Preencha seus dados para iniciar o orçamento das suas lentes oftálmicas.</p>
+            
+            <form id="form-identification">
+                <div class="form-group">
+                    <label for="nome" class="required">Nome Completo</label>
+                    <input type="text" id="nome" name="nome" required placeholder="Digite seu nome completo">
+                </div>
+                
+                <div class="form-group">
+                    <label for="telefone" class="required">Telefone (WhatsApp)</label>
+                    <input type="tel" id="telefone" name="telefone" required placeholder="(11) 99999-9999">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">E-mail (opcional)</label>
+                    <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com">
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="termos" name="termos" required>
+                    <label for="termos">Li e aceito os <a href="#" id="termos-link">termos de uso</a> e a <a href="#" id="privacidade-link">política de privacidade</a>.</label>
+                </div>
+                
+                <div class="button-group">
+                    <button type="button" class="btn btn-block" id="btn-step1-continuar">Continuar</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Etapa 2: Receita / Grau -->
+        <section class="step-content" id="step2">
+            <h2>Receita / Grau</h2>
+            <p>Selecione uma das opções abaixo conforme sua situação:</p>
+            
+            <div class="radio-options">
+                <div class="radio-option" id="option-sem-receita">
+                    <i class="fas fa-eye-slash"></i>
+                    <h3>Sem Receita / Sem Grau</h3>
+                    <p>Quero lente sem grau (ex: solar)</p>
+                    <input type="radio" name="receita" id="sem-receita" value="sem-receita">
+                </div>
+                
+                <div class="radio-option" id="option-com-receita">
+                    <i class="fas fa-file-prescription"></i>
+                    <h3>Com Receita</h3>
+                    <p>Tenho receita com grau para preencher</p>
+                    <input type="radio" name="receita" id="com-receita" value="com-receita">
+                </div>
+            </div>
+            
+            <!-- Formulário para sem receita -->
+            <div id="form-sem-receita" class="hidden">
+                <div class="info-box">
+                    <p><strong>Lente sem grau selecionada.</strong> Você será direcionado para as opções de armação.</p>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="indicacao-exame" name="indicacao-exame">
+                    <label for="indicacao-exame">Desejo indicação de local para exame de vista</label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="observacoes-sem-receita">Observações (opcional)</label>
+                    <textarea id="observacoes-sem-receita" name="observacoes-sem-receita" rows="3" placeholder="Alguma observação ou preferência?"></textarea>
+                </div>
+                
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" id="btn-voltar-step2">Voltar</button>
+                    <button type="button" class="btn" id="btn-step2-sem-receita">Próximo Passo</button>
+                </div>
+            </div>
+            
+            <!-- Formulário para com receita -->
+            <div id="form-com-receita" class="hidden">
+                <div class="warning-box">
+                    <p><strong>Atenção:</strong> Preencha os dados exatamente conforme sua receita médica.</p>
+                </div>
+                
+                <div class="eye-form">
+                    <div class="eye-section">
+                        <div class="eye-title">Olho Direito (OD)</div>
+                        
+                        <div class="form-group">
+                            <label for="od-esferico" class="required">Esférico (+ / -)</label>
+                            <input type="text" id="od-esferico" name="od-esferico" placeholder="Ex: -2.50">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="od-cilindrico">Cilíndrico</label>
+                            <input type="text" id="od-cilindrico" name="od-cilindrico" placeholder="Ex: -1.00">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="od-eixo">Eixo (0 a 180)</label>
+                            <input type="number" id="od-eixo" name="od-eixo" min="0" max="180" placeholder="Ex: 90">
+                        </div>
+                    </div>
+                    
+                    <div class="eye-section">
+                        <div class="eye-title">Olho Esquerdo (OE)</div>
+                        
+                        <div class="form-group">
+                            <label for="oe-esferico" class="required">Esférico (+ / -)</label>
+                            <input type="text" id="oe-esferico" name="oe-esferico" placeholder="Ex: -2.25">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="oe-cilindrico">Cilíndrico</label>
+                            <input type="text" id="oe-cilindrico" name="oe-cilindrico" placeholder="Ex: -0.75">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="oe-eixo">Eixo (0 a 180)</label>
+                            <input type="number" id="oe-eixo" name="oe-eixo" min="0" max="180" placeholder="Ex: 85">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="adicao">Adição (apenas se multifocal)</label>
+                    <input type="text" id="adicao" name="adicao" placeholder="Ex: +1.50">
+                </div>
+                
+                <div class="form-group">
+                    <label for="dp">Distância Pupilar (DP - opcional)</label>
+                    <input type="text" id="dp" name="dp" placeholder="Ex: 62">
+                </div>
+                
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" id="btn-voltar-step2-com-receita">Voltar</button>
+                    <button type="button" class="btn" id="btn-step2-com-receita">Próximo Passo</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Etapa 3: Armação -->
+        <section class="step-content" id="step3">
+            <h2>Armação</h2>
+            <p>Você já possui armação para montar as lentes?</p>
+            
+            <div class="radio-options">
+                <div class="radio-option" id="option-com-armacao">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Já tenho armação</h3>
+                    <p>Vou usar uma armação que já possuo</p>
+                    <input type="radio" name="armacao" id="com-armacao" value="com-armacao">
+                </div>
+                
+                <div class="radio-option" id="option-sem-armacao">
+                    <i class="fas fa-times-circle"></i>
+                    <h3>Não tenho armação</h3>
+                    <p>Preciso de indicação de armação</p>
+                    <input type="radio" name="armacao" id="sem-armacao" value="sem-armacao">
+                </div>
+            </div>
+            
+            <!-- Opções para quem já tem armação -->
+            <div id="form-com-armacao" class="hidden">
+                <div class="warning-box">
+                    <p><strong>Atenção:</strong> A armação passará por conferência técnica antes da montagem.</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="observacoes-armacao">Observações sobre a armação</label>
+                    <textarea id="observacoes-armacao" name="observacoes-armacao" rows="4" placeholder="Informe material, tamanho, condição da armação, etc."></textarea>
+                </div>
+                
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" id="btn-voltar-step3">Voltar</button>
+                    <button type="button" class="btn" id="btn-step3-com-armacao">Próximo Passo</button>
+                </div>
+            </div>
+            
+            <!-- Opções para quem não tem armação -->
+            <div id="form-sem-armacao" class="hidden">
+                <div class="form-group">
+                    <label>Preferência de gênero</label>
+                    <div class="options-grid">
+                        <div class="option-card" id="genero-masculino">
+                            <i class="fas fa-male"></i>
+                            <h4>Masculina</h4>
+                            <input type="radio" name="genero" id="masculino" value="masculino">
+                        </div>
+                        <div class="option-card" id="genero-feminino">
+                            <i class="fas fa-female"></i>
+                            <h4>Feminina</h4>
+                            <input type="radio" name="genero" id="feminino" value="feminino">
+                        </div>
+                        <div class="option-card" id="genero-unissex">
+                            <i class="fas fa-neuter"></i>
+                            <h4>Unissex</h4>
+                            <input type="radio" name="genero" id="unissex" value="unissex">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Tamanho preferido</label>
+                    <div class="options-grid">
+                        <div class="option-card" id="tamanho-pequena">
+                            <i class="fas fa-compress-alt"></i>
+                            <h4>Pequena</h4>
+                            <input type="radio" name="tamanho" id="pequena" value="pequena">
+                        </div>
+                        <div class="option-card" id="tamanho-media">
+                            <i class="fas fa-expand-alt"></i>
+                            <h4>Média</h4>
+                            <input type="radio" name="tamanho" id="media" value="media">
+                        </div>
+                        <div class="option-card" id="tamanho-grande">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                            <h4>Grande</h4>
+                            <input type="radio" name="tamanho" id="grande" value="grande">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Estilo preferido</label>
+                    <div class="options-grid">
+                        <div class="option-card" id="estilo-discreta">
+                            <i class="fas fa-user-secret"></i>
+                            <h4>Discreta</h4>
+                            <input type="radio" name="estilo" id="discreta" value="discreta">
+                        </div>
+                        <div class="option-card" id="estilo-moderna">
+                            <i class="fas fa-bolt"></i>
+                            <h4>Moderna</h4>
+                            <input type="radio" name="estilo" id="moderna" value="moderna">
+                        </div>
+                        <div class="option-card" id="estilo-esportiva">
+                            <i class="fas fa-running"></i>
+                            <h4>Esportiva</h4>
+                            <input type="radio" name="estilo" id="esportiva" value="esportiva">
+                        </div>
+                        <div class="option-card" id="estilo-classica">
+                            <i class="fas fa-landmark"></i>
+                            <h4>Clássica</h4>
+                            <input type="radio" name="estilo" id="classica" value="classica">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="observacoes-sem-armacao">Observações adicionais (opcional)</label>
+                    <textarea id="observacoes-sem-armacao" name="observacoes-sem-armacao" rows="3" placeholder="Alguma preferência específica?"></textarea>
+                </div>
+                
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" id="btn-voltar-step3-sem-armacao">Voltar</button>
+                    <button type="button" class="btn" id="btn-step3-sem-armacao">Próximo Passo</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Etapa 4: Forma de Escolha da Lente -->
+        <section class="step-content" id="step4">
+            <h2>Escolha da Lente</h2>
+            <p>Como você prefere escolher sua lente?</p>
+            
+            <div class="radio-options">
+                <div class="radio-option" id="option-indicacao-loja">
+                    <i class="fas fa-store"></i>
+                    <h3>Indicação da Loja</h3>
+                    <p>Quero que a loja indique a lente ideal</p>
+                    <input type="radio" name="escolha-lente" id="indicacao-loja" value="indicacao-loja">
+                </div>
+                
+                <div class="radio-option" id="option-personalizacao">
+                    <i class="fas fa-cogs"></i>
+                    <h3>Personalização</h3>
+                    <p>Quero personalizar minha lente</p>
+                    <input type="radio" name="escolha-lente" id="personalizacao" value="personalizacao">
+                </div>
+            </div>
+            
+            <!-- Fluxo A: Indicação da Loja -->
+            <div id="fluxo-indicacao" class="hidden">
+                <div class="info-box">
+                    <p><strong>Sua solicitação será enviada para nossa equipe, que fará a indicação ideal de acordo com seu grau e necessidade.</strong> Nossa equipe entrará em contato via WhatsApp para finalizar o orçamento.</p>
+                </div>
+                
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" id="btn-voltar-step4">Voltar</button>
+                    <button type="button" class="btn btn-success" id="btn-enviar-whatsapp-indicacao">Enviar para WhatsApp</button>
+                </div>
+            </div>
+            
+            <!-- Fluxo B: Personalização da Lente -->
+            <div id="fluxo-personalizacao" class="hidden">
+                <!-- Etapa 4.1: Tipo de Lente -->
+                <div id="personalizacao-tipo" class="personalizacao-step">
+                    <h3>Tipo de Lente</h3>
+                    <p>Selecione o tipo de lente que você precisa:</p>
+                    
+                    <div class="options-grid">
+                        <div class="option-card" id="tipo-simples">
+                            <i class="fas fa-eye"></i>
+                            <h4>Visão Simples</h4>
+                            <p>Para correção de miopia, hipermetropia e/ou astigmatismo</p>
+                            <input type="radio" name="tipo-lente" id="simples" value="simples">
+                        </div>
+                        <div class="option-card" id="tipo-multifocal-convencional">
+                            <i class="fas fa-layer-group"></i>
+                            <h4>Multifocal Convencional</h4>
+                            <p>Para visão de perto e longe</p>
+                            <input type="radio" name="tipo-lente" id="multifocal-convencional" value="multifocal-convencional">
+                        </div>
+                        <div class="option-card" id="tipo-multifocal-premium">
+                            <i class="fas fa-crown"></i>
+                            <h4>Multifocal Premium Confort</h4>
+                            <p>Conforto visual superior</p>
+                            <input type="radio" name="tipo-lente" id="multifocal-premium" value="multifocal-premium">
+                        </div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" id="btn-voltar-step4-personalizacao">Voltar</button>
+                        <button type="button" class="btn" id="btn-personalizacao-material">Próximo: Material</button>
+                    </div>
+                </div>
+                
+                <!-- Etapa 4.2: Material -->
+                <div id="personalizacao-material" class="personalizacao-step hidden">
+                    <h3>Material da Lente</h3>
+                    <p>Selecione o material desejado:</p>
+                    
+                    <div id="opcoes-material">
+                        <!-- As opções serão carregadas dinamicamente conforme o tipo de lente selecionado -->
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" id="btn-voltar-material">Voltar</button>
+                        <button type="button" class="btn" id="btn-personalizacao-tratamentos">Próximo: Tratamentos</button>
+                    </div>
+                </div>
+                
+                <!-- Etapa 4.3: Tratamentos -->
+                <div id="personalizacao-tratamentos" class="personalizacao-step hidden">
+                    <h3>Tratamentos</h3>
+                    <p>Selecione os tratamentos desejados:</p>
+                    
+                    <div id="opcoes-tratamentos">
+                        <!-- As opções serão carregadas dinamicamente conforme o tipo de lente selecionado -->
+                    </div>
+                    
+                    <div class="info-box" id="categoria-info">
+                        <p><strong>A categoria da lente é definida automaticamente de acordo com seu grau para garantir melhor desempenho visual.</strong> Se o cilíndrico for maior que 2.00 em qualquer olho, a lente será classificada como "Estendida". Caso contrário, será "Padrão".</p>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" id="btn-voltar-tratamentos">Voltar</button>
+                        <button type="button" class="btn" id="btn-personalizacao-resumo">Próximo: Resumo</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Etapa 5: Resumo do Pedido -->
+        <section class="step-content" id="step5">
+            <h2>Resumo do Pedido</h2>
+            <p>Confira todas as informações do seu orçamento:</p>
+            
+            <div class="summary">
+                <div class="summary-item">
+                    <span>Nome:</span>
+                    <span id="resumo-nome">-</span>
+                </div>
+                <div class="summary-item">
+                    <span>Telefone:</span>
+                    <span id="resumo-telefone">-</span>
+                </div>
+                <div class="summary-item">
+                    <span>Tipo de pedido:</span>
+                    <span id="resumo-tipo-pedido">-</span>
+                </div>
+                <div class="summary-item">
+                    <span>Grau:</span>
+                    <span id="resumo-grau">-</span>
+                </div>
+                <div class="summary-item">
+                    <span>Armação:</span>
+                    <span id="resumo-armacao">-</span>
+                </div>
+                <div class="summary-item">
+                    <span>Tipo de lente:</span>
+                    <span id="resumo-tipo-lente">-</span>
+                </div>
+                <div class="summary-item">
+                    <span>Material:</span>
+                    <span id="resumo-material">-</span>
+                </div>
+                <div class="summary-item">
+                    <span>Tratamentos:</span>
+                    <span id="resumo-tratamentos">-</span>
+                </div>
+                <div class="summary-item">
+                    <span>Categoria:</span>
+                    <span id="resumo-categoria">-</span>
+                </div>
+                <div class="summary-item total">
+                    <span>Valor estimado:</span>
+                    <span class="price" id="resumo-valor">-</span>
+                </div>
+                <div class="summary-item">
+                    <span>Prazo estimado:</span>
+                    <span id="resumo-prazo">-</span>
+                </div>
+            </div>
+            
+            <div class="warning-box">
+                <p><strong>Importante:</strong> Este é um orçamento estimado. O valor final e prazo estão sujeitos à confirmação após análise pela nossa equipe.</p>
+            </div>
+            
+            <div class="button-group">
+                <button type="button" class="btn btn-secondary" id="btn-voltar-step5">Voltar</button>
+                <button type="button" class="btn" id="btn-step5-continuar">Próximo: Observações Finais</button>
+            </div>
+        </section>
+
+        <!-- Etapa 6: Observações Finais -->
+        <section class="step-content" id="step6">
+            <h2>Observações Finais</h2>
+            <p>Se houver alguma dúvida, preferência ou informação adicional que queira compartilhar, utilize o campo abaixo:</p>
+            
+            <div class="form-group">
+                <label for="observacoes-finais">Observações (opcional)</label>
+                <textarea id="observacoes-finais" name="observacoes-finais" rows="5" placeholder="Dúvidas, preferências, informações adicionais..."></textarea>
+            </div>
+            
+            <div class="button-group">
+                <button type="button" class="btn btn-secondary" id="btn-voltar-step6">Voltar</button>
+                <button type="button" class="btn" id="btn-step6-continuar">Próximo: Enviar via WhatsApp</button>
+            </div>
+        </section>
+
+        <!-- Etapa 7: Envio via WhatsApp -->
+        <section class="step-content" id="step7">
+            <h2>Enviar Pedido via WhatsApp</h2>
+            
+            <div class="info-box">
+                <p><strong>Pronto!</strong> Seu orçamento está finalizado. Ao clicar no botão abaixo, uma mensagem será gerada automaticamente e você será direcionado para o WhatsApp da nossa loja.</p>
+                <p>Nossa equipe analisará seu pedido e retornará com a confirmação do orçamento.</p>
+            </div>
+            
+            <div class="summary">
+                <h3>Resumo do Pedido</h3>
+                <div id="resumo-whatsapp">
+                    <!-- O resumo para WhatsApp será gerado aqui -->
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button type="button" class="btn btn-secondary" id="btn-voltar-step7">Voltar</button>
+                <a href="#" class="btn btn-whatsapp btn-block" id="btn-enviar-whatsapp-final" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Enviar Pedido via WhatsApp
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Ótica OWN &copy; <span id="current-year">2023</span> - Todos os direitos reservados</p>
+            <p>Este site não realiza pagamentos online. O fechamento do pedido é feito exclusivamente via WhatsApp.</p>
+            <p>A indicação final de lentes é feita pela equipe da loja, sem utilização de IA.</p>
+        </div>
+    </footer>
+
+    <a href="#" class="whatsapp-float" id="whatsapp-float">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // Dados do pedido
+        let pedidoData = {
+            nome: '',
+            telefone: '',
+            email: '',
+            tipoReceita: '', // 'sem-receita' ou 'com-receita'
+            grau: {
+                od: { esferico: '', cilindrico: '', eixo: '' },
+                oe: { esferico: '', cilindrico: '', eixo: '' },
+                adicao: '',
+                dp: ''
+            },
+            indicacaoExame: false,
+            observacoesSemReceita: '',
+            temArmacao: '', // 'com-armacao' ou 'sem-armacao'
+            observacoesArmacao: '',
+            preferenciasArmacao: {
+                genero: '',
+                tamanho: '',
+                estilo: ''
+            },
+            observacoesSemArmacao: '',
+            escolhaLente: '', // 'indicacao-loja' ou 'personalizacao'
+            tipoLente: '', // 'simples', 'multifocal-convencional', 'multifocal-premium'
+            materialLente: '',
+            tratamentosLente: '',
+            categoriaLente: 'Padrão',
+            valorEstimado: 0,
+            prazoEstimado: '5-7 dias úteis',
+            observacoesFinais: ''
+        };
+
+        // Tabela de preços
+        const precoTabela = {
+            'simples': {
+                'padrao': {
+                    'Resina Normal (1.56)': {
+                        'AR': 169.90,
+                        'AR Blue': 199.90,
+                        'Foto AR': 239.90,
+                        'Foto AR Blue': 279.90
+                    },
+                    'Policarbonato (1.59)': {
+                        'AR': 219.90,
+                        'AR Blue': 259.90,
+                        'Foto AR': 309.90,
+                        'Foto AR Blue': 349.90
+                    },
+                    'Alto Índice (1.61 / 1.67)': {
+                        'AR': 399.90,
+                        'AR Blue': 449.90,
+                        'Foto AR': 549.90,
+                        'Foto AR Blue': 599.90
+                    },
+                    'Super Alto Índice (1.74)': {
+                        'AR': 649.90,
+                        'AR Blue': 699.90,
+                        'Foto AR': 849.90,
+                        'Foto AR Blue': 899.90
+                    }
+                },
+                'estendido': {
+                    'Resina Normal (1.56)': {
+                        'AR': 199.90,
+                        'AR Blue': 249.90,
+                        'Foto AR': 299.90,
+                        'Foto AR Blue': 349.90
+                    },
+                    'Policarbonato (1.59)': {
+                        'AR': 259.90,
+                        'AR Blue': 299.90,
+                        'Foto AR': 399.90,
+                        'Foto AR Blue': 449.90
+                    },
+                    'Alto Índice (1.61 / 1.67)': {
+                        'AR': 449.90,
+                        'AR Blue': 499.90,
+                        'Foto AR': 599.90,
+                        'Foto AR Blue': 649.90
+                    },
+                    'Super Alto Índice (1.74)': {
+                        'AR': 699.90,
+                        'AR Blue': 749.90,
+                        'Foto AR': 899.90,
+                        'Foto AR Blue': 949.90
+                    }
+                }
+            },
+            'multifocal-convencional': {
+                'padrao': {
+                    'Resina Normal': {
+                        'Incolor': 159.90,
+                        'AR': 169.90,
+                        'Blue': 179.90,
+                        'Foto': 189.90,
+                        'Foto AR': 199.90,
+                        'Foto AR Blue': 239.90
+                    }
+                }
+            },
+            'multifocal-premium': {
+                'padrao': {
+                    'Resina Normal': {
+                        'Normal': 289.90,
+                        'Normal AR Verde': 309.90,
+                        'Normal AR Blue': 339.90,
+                        'Filtro Azul': 419.90,
+                        'Filtro Azul AR Verde': 449.90,
+                        'Filtro Azul AR Blue': 469.90,
+                        'Fotossensível': 599.90,
+                        'Fotossensível AR Verde': 629.90,
+                        'Fotossensível AR Blue': 649.90,
+                        'Foto Blue': 729.90,
+                        'Foto Blue AR Verde': 759.90,
+                        'Foto Blue AR Blue': 779.90,
+                        'Transitions': 1119.90,
+                        'Transitions AR Verde': 1149.90,
+                        'Transitions AR Blue': 1179.90
+                    },
+                    'Policarbonato 1.59': {
+                        'Poli Normal': 499.90,
+                        'Poli Normal AR Verde': 519.90,
+                        'Poli Normal AR Blue': 549.90,
+                        'Poli Filtro Azul': 629.90,
+                        'Poli Filtro Azul AR Verde': 649.90,
+                        'Poli Filtro Azul AR Blue': 679.90,
+                        'Poli Fotossensível': 809.90,
+                        'Poli Fotossensível AR Verde': 829.90,
+                        'Poli Fotossensível AR Blue': 859.90,
+                        'Poli Transitions': 1329.90,
+                        'Poli Transitions AR Verde': 1349.90,
+                        'Poli Transitions AR Blue': 1379.90
+                    },
+                    'Alto Índice 1.61': {
+                        'Normal': 679.90,
+                        'Normal AR Verde': 699.90,
+                        'Normal AR Blue': 729.90,
+                        'Fotossensível': 989.90,
+                        'Fotossensível AR Verde': 1019.90,
+                        'Fotossensível AR Blue': 1039.90
+                    },
+                    'Alto Índice 1.67': {
+                        'Normal': 839.90,
+                        'Normal AR Verde': 859.90,
+                        'Normal AR Blue': 889.90,
+                        'Filtro Azul': 969.90,
+                        'Filtro Azul AR Verde': 989.90,
+                        'Filtro Azul AR Blue': 1019.90,
+                        'Fotossensível': 1149.90,
+                        'Fotossensível AR Verde': 1169.90,
+                        'Fotossensível AR Blue': 1199.90,
+                        'Transitions': 2959.90,
+                        'Transitions AR Verde': 2989.90,
+                        'Transitions AR Blue': 3019.90
+                    },
+                    'Super Alto Índice 1.74': {
+                        'Filtro Azul': 1459.90,
+                        'Filtro Azul AR Verde': 1489.90,
+                        'Filtro Azul AR Blue': 1509.90,
+                        'Filtro Azul Fotossensível': 2079.90,
+                        'Filtro Azul Fotossensível AR Verde': 2109.90,
+                        'Filtro Azul Fotossensível AR Blue': 2139.90
+                    }
+                }
+            }
+        };
+
+        // Materiais disponíveis por tipo de lente
+        const materiaisPorTipo = {
+            'simples': ['Resina Normal (1.56)', 'Policarbonato (1.59)', 'Alto Índice (1.61 / 1.67)', 'Super Alto Índice (1.74)'],
+            'multifocal-convencional': ['Resina Normal'],
+            'multifocal-premium': ['Resina Normal', 'Policarbonato 1.59', 'Alto Índice 1.61', 'Alto Índice 1.67', 'Super Alto Índice 1.74']
+        };
+
+        // Tratamentos disponíveis por tipo de lente
+        const tratamentosPorTipo = {
+            'simples': ['AR', 'AR Blue', 'Foto AR', 'Foto AR Blue'],
+            'multifocal-convencional': ['Incolor', 'AR', 'Blue', 'Foto', 'Foto AR', 'Foto AR Blue'],
+            'multifocal-premium': {
+                'Resina Normal': ['Normal', 'Normal AR Verde', 'Normal AR Blue', 'Filtro Azul', 'Filtro Azul AR Verde', 'Filtro Azul AR Blue', 'Fotossensível', 'Fotossensível AR Verde', 'Fotossensível AR Blue', 'Foto Blue', 'Foto Blue AR Verde', 'Foto Blue AR Blue', 'Transitions', 'Transitions AR Verde', 'Transitions AR Blue'],
+                'Policarbonato 1.59': ['Poli Normal', 'Poli Normal AR Verde', 'Poli Normal AR Blue', 'Poli Filtro Azul', 'Poli Filtro Azul AR Verde', 'Poli Filtro Azul AR Blue', 'Poli Fotossensível', 'Poli Fotossensível AR Verde', 'Poli Fotossensível AR Blue', 'Poli Transitions', 'Poli Transitions AR Verde', 'Poli Transitions AR Blue'],
+                'Alto Índice 1.61': ['Normal', 'Normal AR Verde', 'Normal AR Blue', 'Fotossensível', 'Fotossensível AR Verde', 'Fotossensível AR Blue'],
+                'Alto Índice 1.67': ['Normal', 'Normal AR Verde', 'Normal AR Blue', 'Filtro Azul', 'Filtro Azul AR Verde', 'Filtro Azul AR Blue', 'Fotossensível', 'Fotossensível AR Verde', 'Fotossensível AR Blue', 'Transitions', 'Transitions AR Verde', 'Transitions AR Blue'],
+                'Super Alto Índice 1.74': ['Filtro Azul', 'Filtro Azul AR Verde', 'Filtro Azul AR Blue', 'Filtro Azul Fotossensível', 'Filtro Azul Fotossensível AR Verde', 'Filtro Azul Fotossensível AR Blue']
+            }
+        };
+
+        // Elementos DOM
+        const progressBar = document.getElementById('progress');
+        const stepContents = document.querySelectorAll('.step-content');
+        const stepIndicators = document.querySelectorAll('.step-indicator .step');
+        let currentStep = 1;
+
+        // Atualizar ano atual no footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Função para atualizar a barra de progresso
+        function updateProgressBar() {
+            const progressPercentage = (currentStep / 7) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            
+            // Atualizar indicadores de etapa
+            stepIndicators.forEach((indicator, index) => {
+                if (index + 1 <= currentStep) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+        }
+
+        // Função para navegar entre etapas
+        function goToStep(step) {
+            // Esconder todas as etapas
+            stepContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Mostrar a etapa atual
+            document.getElementById(`step${step}`).classList.add('active');
+            
+            // Atualizar a etapa atual e barra de progresso
+            currentStep = step;
+            updateProgressBar();
+            
+            // Rolar para o topo
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Atualizar resumo se for a etapa 5
+            if (step === 5) {
+                updateResumo();
+            }
+            
+            // Atualizar resumo do WhatsApp se for a etapa 7
+            if (step === 7) {
+                updateResumoWhatsApp();
+            }
+        }
+
+        // Atualizar o resumo na etapa 5
+        function updateResumo() {
+            document.getElementById('resumo-nome').textContent = pedidoData.nome || '-';
+            document.getElementById('resumo-telefone').textContent = pedidoData.telefone || '-';
+            
+            // Tipo de pedido
+            if (pedidoData.tipoReceita === 'sem-receita') {
+                document.getElementById('resumo-tipo-pedido').textContent = 'Lente sem grau';
+                document.getElementById('resumo-grau').textContent = 'Sem grau';
+            } else {
+                document.getElementById('resumo-tipo-pedido').textContent = 'Lente com grau';
+                
+                // Montar string do grau
+                let grauStr = '';
+                if (pedidoData.grau.od.esferico || pedidoData.grau.oe.esferico) {
+                    grauStr = `OD: ${pedidoData.grau.od.esferico || ''} ${pedidoData.grau.od.cilindrico || ''} ${pedidoData.grau.od.eixo || ''} | OE: ${pedidoData.grau.oe.esferico || ''} ${pedidoData.grau.oe.cilindrico || ''} ${pedidoData.grau.oe.eixo || ''}`;
+                    if (pedidoData.grau.adicao) grauStr += ` | Adição: ${pedidoData.grau.adicao}`;
+                } else {
+                    grauStr = '-';
+                }
+                document.getElementById('resumo-grau').textContent = grauStr;
+            }
+            
+            // Armação
+            if (pedidoData.temArmacao === 'com-armacao') {
+                document.getElementById('resumo-armacao').textContent = 'Já possui armação';
+            } else {
+                let armaçãoStr = 'Precisa de armação';
+                if (pedidoData.preferenciasArmacao.genero || pedidoData.preferenciasArmacao.tamanho || pedidoData.preferenciasArmacao.estilo) {
+                    armaçãoStr += ` (${pedidoData.preferenciasArmacao.genero || ''} ${pedidoData.preferenciasArmacao.tamanho || ''} ${pedidoData.preferenciasArmacao.estilo || ''})`;
+                }
+                document.getElementById('resumo-armacao').textContent = armaçãoStr;
+            }
+            
+            // Informações da lente
+            document.getElementById('resumo-tipo-lente').textContent = getTipoLenteDescricao(pedidoData.tipoLente) || '-';
+            document.getElementById('resumo-material').textContent = pedidoData.materialLente || '-';
+            document.getElementById('resumo-tratamentos').textContent = pedidoData.tratamentosLente || '-';
+            document.getElementById('resumo-categoria').textContent = pedidoData.categoriaLente || '-';
+            
+            // Valor e prazo
+            document.getElementById('resumo-valor').textContent = pedidoData.valorEstimado ? `R$ ${pedidoData.valorEstimado.toFixed(2).replace('.', ',')}` : '-';
+            document.getElementById('resumo-prazo').textContent = pedidoData.prazoEstimado || '-';
+        }
+
+        // Atualizar resumo para WhatsApp
+        function updateResumoWhatsApp() {
+            const resumoElement = document.getElementById('resumo-whatsapp');
+            let resumoHTML = '';
+            
+            resumoHTML += `<p><strong>Nome:</strong> ${pedidoData.nome}</p>`;
+            resumoHTML += `<p><strong>Telefone:</strong> ${pedidoData.telefone}</p>`;
+            if (pedidoData.email) resumoHTML += `<p><strong>E-mail:</strong> ${pedidoData.email}</p>`;
+            
+            // Tipo de pedido
+            if (pedidoData.tipoReceita === 'sem-receita') {
+                resumoHTML += `<p><strong>Tipo:</strong> Lente sem grau</p>`;
+                if (pedidoData.indicacaoExame) resumoHTML += `<p><strong>Indicação de exame:</strong> Sim</p>`;
+            } else {
+                resumoHTML += `<p><strong>Tipo:</strong> Lente com grau</p>`;
+                
+                // Montar string do grau
+                let grauStr = '';
+                if (pedidoData.grau.od.esferico || pedidoData.grau.oe.esferico) {
+                    grauStr = `OD: ${pedidoData.grau.od.esferico || ''} ${pedidoData.grau.od.cilindrico || ''} ${pedidoData.grau.od.eixo || ''} | OE: ${pedidoData.grau.oe.esferico || ''} ${pedidoData.grau.oe.cilindrico || ''} ${pedidoData.grau.oe.eixo || ''}`;
+                    if (pedidoData.grau.adicao) grauStr += ` | Adição: ${pedidoData.grau.adicao}`;
+                    if (pedidoData.grau.dp) grauStr += ` | DP: ${pedidoData.grau.dp}`;
+                }
+                resumoHTML += `<p><strong>Grau:</strong> ${grauStr || '-'}</p>`;
+            }
+            
+            // Armação
+            if (pedidoData.temArmacao === 'com-armacao') {
+                resumoHTML += `<p><strong>Armação:</strong> Já possui${pedidoData.observacoesArmacao ? ` (${pedidoData.observacoesArmacao})` : ''}</p>`;
+            } else {
+                let armaçãoStr = 'Precisa de armação';
+                if (pedidoData.preferenciasArmacao.genero || pedidoData.preferenciasArmacao.tamanho || pedidoData.preferenciasArmacao.estilo) {
+                    armaçãoStr += ` (${pedidoData.preferenciasArmacao.genero || ''} ${pedidoData.preferenciasArmacao.tamanho || ''} ${pedidoData.preferenciasArmacao.estilo || ''})`;
+                }
+                if (pedidoData.observacoesSemArmacao) armaçãoStr += ` - ${pedidoData.observacoesSemArmacao}`;
+                resumoHTML += `<p><strong>Armação:</strong> ${armacaoStr}</p>`;
+            }
+            
+            // Escolha da lente
+            if (pedidoData.escolhaLente === 'indicacao-loja') {
+                resumoHTML += `<p><strong>Escolha da lente:</strong> Indicação da loja</p>`;
+            } else {
+                resumoHTML += `<p><strong>Tipo de lente:</strong> ${getTipoLenteDescricao(pedidoData.tipoLente) || '-'}</p>`;
+                resumoHTML += `<p><strong>Material:</strong> ${pedidoData.materialLente || '-'}</p>`;
+                resumoHTML += `<p><strong>Tratamentos:</strong> ${pedidoData.tratamentosLente || '-'}</p>`;
+                resumoHTML += `<p><strong>Categoria:</strong> ${pedidoData.categoriaLente || '-'}</p>`;
+                resumoHTML += `<p><strong>Valor estimado:</strong> R$ ${pedidoData.valorEstimado.toFixed(2).replace('.', ',') || '-'}</p>`;
+            }
+            
+            // Observações finais
+            if (pedidoData.observacoesFinais) {
+                resumoHTML += `<p><strong>Observações finais:</strong> ${pedidoData.observacoesFinais}</p>`;
+            }
+            
+            // Observações sem receita (se houver)
+            if (pedidoData.tipoReceita === 'sem-receita' && pedidoData.observacoesSemReceita) {
+                resumoHTML += `<p><strong>Observações:</strong> ${pedidoData.observacoesSemReceita}</p>`;
+            }
+            
+            resumoElement.innerHTML = resumoHTML;
+            
+            // Atualizar link do WhatsApp
+            const whatsappNumber = "5511999999999"; // Substituir pelo número real da loja
+            const mensagem = encodeURIComponent(`Olá, Ótica OWN! Gostaria de solicitar um orçamento.\n\n${resumoElement.textContent}`);
+            const whatsappLink = `https://wa.me/${whatsappNumber}?text=${mensagem}`;
+            
+            document.getElementById('btn-enviar-whatsapp-final').href = whatsappLink;
+            document.getElementById('whatsapp-float').href = whatsappLink;
+        }
+
+        // Função auxiliar para obter descrição do tipo de lente
+        function getTipoLenteDescricao(tipo) {
+            const tipos = {
+                'simples': 'Visão Simples',
+                'multifocal-convencional': 'Multifocal Convencional',
+                'multifocal-premium': 'Multifocal Premium Confort'
+            };
+            return tipos[tipo] || tipo;
+        }
+
+        // Função para calcular o preço com base nas escolhas
+        function calcularPreco() {
+            // Se for indicação da loja, não calcular preço
+            if (pedidoData.escolhaLente === 'indicacao-loja') {
+                pedidoData.valorEstimado = 0;
+                pedidoData.prazoEstimado = 'A confirmar após análise';
+                return;
+            }
+            
+            // Verificar se temos todos os dados necessários
+            if (!pedidoData.tipoLente || !pedidoData.materialLente || !pedidoData.tratamentosLente) {
+                pedidoData.valorEstimado = 0;
+                return;
+            }
+            
+            // Determinar a categoria (Padrão ou Estendida)
+            let categoria = 'padrao';
+            if (pedidoData.tipoReceita === 'com-receita') {
+                const cilindricoOD = Math.abs(parseFloat(pedidoData.grau.od.cilindrico) || 0);
+                const cilindricoOE = Math.abs(parseFloat(pedidoData.grau.oe.cilindrico) || 0);
+                
+                if (cilindricoOD > 2.00 || cilindricoOE > 2.00) {
+                    categoria = 'estendido';
+                    pedidoData.categoriaLente = 'Estendida';
+                } else {
+                    pedidoData.categoriaLente = 'Padrão';
+                }
+            }
+            
+            // Buscar preço na tabela
+            let preco = 0;
+            
+            try {
+                if (pedidoData.tipoLente === 'simples') {
+                    preco = precoTabela.simples[categoria][pedidoData.materialLente][pedidoData.tratamentosLente];
+                } else if (pedidoData.tipoLente === 'multifocal-convencional') {
+                    preco = precoTabela['multifocal-convencional'].padrao[pedidoData.materialLente][pedidoData.tratamentosLente];
+                } else if (pedidoData.tipoLente === 'multifocal-premium') {
+                    // Para multifocal premium, precisamos encontrar o material correto
+                    const materialKey = Object.keys(precoTabela['multifocal-premium'].padrao).find(key => 
+                        key === pedidoData.materialLente || key.includes(pedidoData.materialLente.split(' ')[0])
+                    );
+                    
+                    if (materialKey) {
+                        preco = precoTabela['multifocal-premium'].padrao[materialKey][pedidoData.tratamentosLente];
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao calcular preço:', error);
+                preco = 0;
+            }
+            
+            pedidoData.valorEstimado = preco || 0;
+            
+            // Definir prazo estimado
+            if (preco > 0) {
+                if (pedidoData.tipoLente === 'multifocal-premium' && pedidoData.materialLente.includes('Alto Índice')) {
+                    pedidoData.prazoEstimado = '7-10 dias úteis';
+                } else {
+                    pedidoData.prazoEstimado = '5-7 dias úteis';
+                }
+            } else {
+                pedidoData.prazoEstimado = 'A confirmar após análise';
+            }
+        }
+
+        // Inicializar interações de rádio options
+        function initRadioOptions() {
+            // Etapa 2: Receita
+            document.getElementById('option-sem-receita').addEventListener('click', function() {
+                document.getElementById('sem-receita').checked = true;
+                document.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                document.getElementById('form-sem-receita').classList.remove('hidden');
+                document.getElementById('form-com-receita').classList.add('hidden');
+                
+                pedidoData.tipoReceita = 'sem-receita';
+            });
+            
+            document.getElementById('option-com-receita').addEventListener('click', function() {
+                document.getElementById('com-receita').checked = true;
+                document.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                document.getElementById('form-com-receita').classList.remove('hidden');
+                document.getElementById('form-sem-receita').classList.add('hidden');
+                
+                pedidoData.tipoReceita = 'com-receita';
+            });
+            
+            // Etapa 3: Armação
+            document.getElementById('option-com-armacao').addEventListener('click', function() {
+                document.getElementById('com-armacao').checked = true;
+                document.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                document.getElementById('form-com-armacao').classList.remove('hidden');
+                document.getElementById('form-sem-armacao').classList.add('hidden');
+                
+                pedidoData.temArmacao = 'com-armacao';
+            });
+            
+            document.getElementById('option-sem-armacao').addEventListener('click', function() {
+                document.getElementById('sem-armacao').checked = true;
+                document.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                document.getElementById('form-sem-armacao').classList.remove('hidden');
+                document.getElementById('form-com-armacao').classList.add('hidden');
+                
+                pedidoData.temArmacao = 'sem-armacao';
+            });
+            
+            // Etapa 4: Escolha da lente
+            document.getElementById('option-indicacao-loja').addEventListener('click', function() {
+                document.getElementById('indicacao-loja').checked = true;
+                document.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                document.getElementById('fluxo-indicacao').classList.remove('hidden');
+                document.getElementById('fluxo-personalizacao').classList.add('hidden');
+                
+                pedidoData.escolhaLente = 'indicacao-loja';
+                calcularPreco();
+            });
+            
+            document.getElementById('option-personalizacao').addEventListener('click', function() {
+                document.getElementById('personalizacao').checked = true;
+                document.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                document.getElementById('fluxo-personalizacao').classList.remove('hidden');
+                document.getElementById('fluxo-indicacao').classList.add('hidden');
+                
+                // Mostrar primeira etapa da personalização
+                document.querySelectorAll('.personalizacao-step').forEach(step => step.classList.add('hidden'));
+                document.getElementById('personalizacao-tipo').classList.remove('hidden');
+                
+                pedidoData.escolhaLente = 'personalizacao';
+            });
+        }
+
+        // Inicializar opções de personalização
+        function initPersonalizacaoOptions() {
+            // Tipo de lente
+            document.getElementById('tipo-simples').addEventListener('click', function() {
+                document.getElementById('simples').checked = true;
+                document.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
+                this.classList.add('selected');
+                pedidoData.tipoLente = 'simples';
+            });
+            
+            document.getElementById('tipo-multifocal-convencional').addEventListener('click', function() {
+                document.getElementById('multifocal-convencional').checked = true;
+                document.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
+                this.classList.add('selected');
+                pedidoData.tipoLente = 'multifocal-convencional';
+            });
+            
+            document.getElementById('tipo-multifocal-premium').addEventListener('click', function() {
+                document.getElementById('multifocal-premium').checked = true;
+                document.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
+                this.classList.add('selected');
+                pedidoData.tipoLente = 'multifocal-premium';
+            });
+            
+            // Opções de armação (quem não tem armação)
+            // Gênero
+            document.getElementById('genero-masculino').addEventListener('click', function() {
+                document.getElementById('masculino').checked = true;
+                document.querySelectorAll('#form-sem-armacao .option-card').forEach(card => card.classList.remove('selected'));
+                this.classList.add('selected');
+                pedidoData.preferenciasArmacao.genero = 'Masculina';
+            });
+            
+            document.getElementById('genero-feminino').addEventListener('click', function() {
+                document.getElementById('feminino').checked = true;
+                document.querySelectorAll('#form-sem-armacao .option-card').forEach(card => card.classList.remove('selected'));
+                this.classList.add('selected');
+                pedidoData.preferenciasArmacao.genero = 'Feminina';
+            });
+            
+            document.getElementById('genero-unissex').addEventListener('click', function() {
+                document.getElementById('unissex').checked = true;
+                document.querySelectorAll('#form-sem-armacao .option-card').forEach(card => card.classList.remove('selected'));
+                this.classList.add('selected');
+                pedidoData.preferenciasArmacao.genero = 'Unissex';
+            });
+            
+            // Tamanho
+            document.getElementById('tamanho-pequena').addEventListener('click', function() {
+                document.getElementById('pequena').checked = true;
+                document.querySelectorAll('#form-sem-armacao .option-card').forEach(card => {
+                    if (card.closest('.form-group:nth-child(2)')) {
+                        card.classList.remove('selected');
+                    }
+                });
+                this.classList.add('selected');
+                pedidoData.preferenciasArmacao.tamanho = 'Pequena';
+            });
+            
+            document.getElementById('tamanho-media').addEventListener('click', function() {
+                document.getElementById('media').checked = true;
+                document.querySelectorAll('#form-sem-armacao .option-card').forEach(card => {
+                    if (card.closest('.form-group:nth-child(2)')) {
+                        card.classList.remove('selected');
+                    }
+                });
+                this.classList.add('selected');
+                pedidoData.preferenciasArmacao.tamanho = 'Média';
+            });
+            
+            document.getElementById('tamanho-grande').addEventListener('click', function() {
+                document.getElementById('grande').checked = true;
+                document.querySelectorAll('#form-sem-armacao .option-card').forEach(card => {
+                    if (card.closest('.form-group:nth-child(2)')) {
+                        card.classList.remove('selected');
+                    }
+                });
+                this.classList.add('selected');
+                pedidoData.preferenciasArmacao.tamanho = 'Grande';
+            });
+            
+            // Estilo
+            document.getElementById('estilo-discreta').addEventListener('click', function() {
+                document.getElementById('discreta').checked = true;
+                document.querySelectorAll('#form-sem-armacao .option-card').forEach(card => {
+                    if (card.closest('.form-group:nth-child(3)')) {
+                        card.classList.remove('selected');
+                    }
+                });
+                this.classList.add('selected');
+                pedidoData.preferenciasArmacao.estilo = 'Discreta';
+            });
+            
+            document.getElementById('estilo-moderna').addEventListener('click', function() {
+                document.getElementById('moderna').checked = true;
+                document.querySelectorAll('#form-sem-armacao .option-card').forEach(card => {
+                    if (card.closest('.form-group:nth-child(3)')) {
+                        card.classList.remove('selected');
+                    }
+                });
+                this.classList.add('selected');
+                pedidoData.preferenciasArmacao.estilo = 'Moderna';
+            });
+            
+            document.getElementById('estilo-esportiva').addEventListener('click', function() {
+                document.getElementById('esportiva').checked = true;
+                document.querySelectorAll('#form-sem-armacao .option-card').forEach(card => {
+                    if (card.closest('.form-group:nth-child(3)')) {
+                        card.classList.remove('selected');
+                    }
+                });
+                this.classList.add('selected');
+                pedidoData.preferenciasArmacao.estilo = 'Esportiva';
+            });
+            
+            document.getElementById('estilo-classica').addEventListener('click', function() {
+                document.getElementById('classica').checked = true;
+                document.querySelectorAll('#form-sem-armacao .option-card').forEach(card => {
+                    if (card.closest('.form-group:nth-child(3)')) {
+                        card.classList.remove('selected');
+                    }
+                });
+                this.classList.add('selected');
+                pedidoData.preferenciasArmacao.estilo = 'Clássica';
+            });
+        }
+
+        // Carregar opções de material
+        function loadMaterialOptions() {
+            const container = document.getElementById('opcoes-material');
+            container.innerHTML = '';
+            
+            if (!pedidoData.tipoLente) return;
+            
+            const materiais = materiaisPorTipo[pedidoData.tipoLente];
+            
+            materiais.forEach(material => {
+                const card = document.createElement('div');
+                card.className = 'option-card';
+                card.innerHTML = `
+                    <h4>${material}</h4>
+                    <input type="radio" name="material" id="material-${material.replace(/\s+/g, '-').toLowerCase()}" value="${material}">
+                `;
+                
+                card.addEventListener('click', function() {
+                    document.querySelectorAll('#opcoes-material .option-card').forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    pedidoData.materialLente = material;
+                });
+                
+                container.appendChild(card);
+            });
+        }
+
+        // Carregar opções de tratamentos
+        function loadTratamentosOptions() {
+            const container = document.getElementById('opcoes-tratamentos');
+            container.innerHTML = '';
+            
+            if (!pedidoData.tipoLente || !pedidoData.materialLente) return;
+            
+            let tratamentos = [];
+            
+            if (pedidoData.tipoLente === 'simples') {
+                tratamentos = tratamentosPorTipo.simples;
+            } else if (pedidoData.tipoLente === 'multifocal-convencional') {
+                tratamentos = tratamentosPorTipo['multifocal-convencional'];
+            } else if (pedidoData.tipoLente === 'multifocal-premium') {
+                // Encontrar o material correto
+                const materialKey = Object.keys(tratamentosPorTipo['multifocal-premium']).find(key => 
+                    key === pedidoData.materialLente || key.includes(pedidoData.materialLente.split(' ')[0])
+                );
+                
+                if (materialKey) {
+                    tratamentos = tratamentosPorTipo['multifocal-premium'][materialKey];
+                }
+            }
+            
+            tratamentos.forEach(tratamento => {
+                const card = document.createElement('div');
+                card.className = 'option-card';
+                card.innerHTML = `
+                    <h4>${tratamento}</h4>
+                    <input type="radio" name="tratamento" id="tratamento-${tratamento.replace(/\s+/g, '-').toLowerCase()}" value="${tratamento}">
+                `;
+                
+                card.addEventListener('click', function() {
+                    document.querySelectorAll('#opcoes-tratamentos .option-card').forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    pedidoData.tratamentosLente = tratamento;
+                    calcularPreco();
+                });
+                
+                container.appendChild(card);
+            });
+        }
+
+        // Event Listeners para navegação
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar opções interativas
+            initRadioOptions();
+            initPersonalizacaoOptions();
+            
+            // Etapa 1: Identificação
+            document.getElementById('btn-step1-continuar').addEventListener('click', function() {
+                // Validar formulário
+                const nome = document.getElementById('nome').value.trim();
+                const telefone = document.getElementById('telefone').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const termos = document.getElementById('termos').checked;
+                
+                if (!nome || !telefone || !termos) {
+                    alert('Por favor, preencha todos os campos obrigatórios e aceite os termos.');
+                    return;
+                }
+                
+                // Salvar dados
+                pedidoData.nome = nome;
+                pedidoData.telefone = telefone;
+                pedidoData.email = email;
+                
+                // Ir para etapa 2
+                goToStep(2);
+            });
+            
+            // Etapa 2: Sem receita
+            document.getElementById('btn-step2-sem-receita').addEventListener('click', function() {
+                // Salvar dados
+                pedidoData.indicacaoExame = document.getElementById('indicacao-exame').checked;
+                pedidoData.observacoesSemReceita = document.getElementById('observacoes-sem-receita').value.trim();
+                
+                // Ir para etapa 3
+                goToStep(3);
+            });
+            
+            // Etapa 2: Com receita
+            document.getElementById('btn-step2-com-receita').addEventListener('click', function() {
+                // Validar campos obrigatórios
+                const odEsferico = document.getElementById('od-esferico').value.trim();
+                const oeEsferico = document.getElementById('oe-esferico').value.trim();
+                
+                if (!odEsferico || !oeEsferico) {
+                    alert('Por favor, preencha pelo menos o campo esférico para ambos os olhos.');
+                    return;
+                }
+                
+                // Salvar dados
+                pedidoData.grau.od.esferico = odEsferico;
+                pedidoData.grau.od.cilindrico = document.getElementById('od-cilindrico').value.trim();
+                pedidoData.grau.od.eixo = document.getElementById('od-eixo').value.trim();
+                pedidoData.grau.oe.esferico = oeEsferico;
+                pedidoData.grau.oe.cilindrico = document.getElementById('oe-cilindrico').value.trim();
+                pedidoData.grau.oe.eixo = document.getElementById('oe-eixo').value.trim();
+                pedidoData.grau.adicao = document.getElementById('adicao').value.trim();
+                pedidoData.grau.dp = document.getElementById('dp').value.trim();
+                
+                // Ir para etapa 3
+                goToStep(3);
+            });
+            
+            // Etapa 3: Com armação
+            document.getElementById('btn-step3-com-armacao').addEventListener('click', function() {
+                // Salvar dados
+                pedidoData.observacoesArmacao = document.getElementById('observacoes-armacao').value.trim();
+                
+                // Ir para etapa 4
+                goToStep(4);
+            });
+            
+            // Etapa 3: Sem armação
+            document.getElementById('btn-step3-sem-armacao').addEventListener('click', function() {
+                // Salvar dados
+                pedidoData.observacoesSemArmacao = document.getElementById('observacoes-sem-armacao').value.trim();
+                
+                // Ir para etapa 4
+                goToStep(4);
+            });
+            
+            // Etapa 4: Indicação da loja (enviar para WhatsApp)
+            document.getElementById('btn-enviar-whatsapp-indicacao').addEventListener('click', function() {
+                // Ir direto para a etapa 7 (WhatsApp)
+                goToStep(7);
+            });
+            
+            // Etapa 4: Personalização - Próximo (Tipo -> Material)
+            document.getElementById('btn-personalizacao-material').addEventListener('click', function() {
+                if (!pedidoData.tipoLente) {
+                    alert('Por favor, selecione um tipo de lente.');
+                    return;
+                }
+                
+                // Carregar opções de material
+                loadMaterialOptions();
+                
+                // Mostrar etapa de material
+                document.getElementById('personalizacao-tipo').classList.add('hidden');
+                document.getElementById('personalizacao-material').classList.remove('hidden');
+            });
+            
+            // Etapa 4: Personalização - Voltar (Material -> Tipo)
+            document.getElementById('btn-voltar-material').addEventListener('click', function() {
+                document.getElementById('personalizacao-material').classList.add('hidden');
+                document.getElementById('personalizacao-tipo').classList.remove('hidden');
+            });
+            
+            // Etapa 4: Personalização - Próximo (Material -> Tratamentos)
+            document.getElementById('btn-personalizacao-tratamentos').addEventListener('click', function() {
+                if (!pedidoData.materialLente) {
+                    alert('Por favor, selecione um material.');
+                    return;
+                }
+                
+                // Carregar opções de tratamentos
+                loadTratamentosOptions();
+                
+                // Mostrar etapa de tratamentos
+                document.getElementById('personalizacao-material').classList.add('hidden');
+                document.getElementById('personalizacao-tratamentos').classList.remove('hidden');
+            });
+            
+            // Etapa 4: Personalização - Voltar (Tratamentos -> Material)
+            document.getElementById('btn-voltar-tratamentos').addEventListener('click', function() {
+                document.getElementById('personalizacao-tratamentos').classList.add('hidden');
+                document.getElementById('personalizacao-material').classList.remove('hidden');
+            });
+            
+            // Etapa 4: Personalização - Próximo (Tratamentos -> Resumo)
+            document.getElementById('btn-personalizacao-resumo').addEventListener('click', function() {
+                if (!pedidoData.tratamentosLente) {
+                    alert('Por favor, selecione um tratamento.');
+                    return;
+                }
+                
+                // Calcular preço
+                calcularPreco();
+                
+                // Ir para etapa 5 (Resumo)
+                goToStep(5);
+            });
+            
+            // Etapa 5: Continuar
+            document.getElementById('btn-step5-continuar').addEventListener('click', function() {
+                goToStep(6);
+            });
+            
+            // Etapa 6: Continuar
+            document.getElementById('btn-step6-continuar').addEventListener('click', function() {
+                // Salvar observações finais
+                pedidoData.observacoesFinais = document.getElementById('observacoes-finais').value.trim();
+                
+                // Ir para etapa 7
+                goToStep(7);
+            });
+            
+            // Botões de voltar
+            document.getElementById('btn-voltar-step2').addEventListener('click', function() {
+                goToStep(1);
+            });
+            
+            document.getElementById('btn-voltar-step2-com-receita').addEventListener('click', function() {
+                goToStep(1);
+            });
+            
+            document.getElementById('btn-voltar-step3').addEventListener('click', function() {
+                goToStep(2);
+            });
+            
+            document.getElementById('btn-voltar-step3-sem-armacao').addEventListener('click', function() {
+                goToStep(2);
+            });
+            
+            document.getElementById('btn-voltar-step4').addEventListener('click', function() {
+                goToStep(3);
+            });
+            
+            document.getElementById('btn-voltar-step4-personalizacao').addEventListener('click', function() {
+                goToStep(3);
+            });
+            
+            document.getElementById('btn-voltar-step5').addEventListener('click', function() {
+                if (pedidoData.escolhaLente === 'personalizacao') {
+                    goToStep(4);
+                } else {
+                    goToStep(3);
+                }
+            });
+            
+            document.getElementById('btn-voltar-step6').addEventListener('click', function() {
+                goToStep(5);
+            });
+            
+            document.getElementById('btn-voltar-step7').addEventListener('click', function() {
+                goToStep(6);
+            });
+            
+            // Formatação do telefone
+            document.getElementById('telefone').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                
+                if (value.length > 11) {
+                    value = value.substring(0, 11);
+                }
+                
+                if (value.length > 10) {
+                    value = value.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
+                } else if (value.length > 6) {
+                    value = value.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, '($1) $2-$3');
+                } else if (value.length > 2) {
+                    value = value.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
+                } else if (value.length > 0) {
+                    value = value.replace(/^(\d*)/, '($1');
+                }
+                
+                e.target.value = value;
+            });
+            
+            // Links de termos e política
+            document.getElementById('termos-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Termos de uso: O orçamento gerado através deste site é uma estimativa e está sujeito à confirmação pela equipe da Ótica OWN. Os dados fornecidos serão utilizados exclusivamente para fins de orçamento e atendimento.');
+            });
+            
+            document.getElementById('privacidade-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Política de privacidade: Seus dados pessoais (nome, telefone e e-mail) são coletados apenas para fins de orçamento e serão compartilhados apenas com nossa equipe de atendimento via WhatsApp. Não compartilhamos seus dados com terceiros.');
+            });
+            
+            // Inicializar barra de progresso
+            updateProgressBar();
+        });
+    </script>
+</body>
+</html>
