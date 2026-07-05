@@ -63,12 +63,10 @@
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
-            /* Pequeno blur para profundidade (ajuste conforme necessário) */
             filter: blur(0.8px);
-            transform: scale(1.02); /* evita bordas brancas do blur */
+            transform: scale(1.02);
         }
 
-        /* Overlay escuro para legibilidade */
         .overlay {
             position: fixed;
             top: 0;
@@ -82,7 +80,6 @@
             -webkit-backdrop-filter: blur(0.3px);
         }
 
-        /* Vinheta suave nas bordas */
         .bg-vignette {
             position: fixed;
             top: 0;
@@ -112,7 +109,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Logo e cabeçalho */
         .logo-container {
             display: flex;
             flex-direction: column;
@@ -150,7 +146,6 @@
             text-transform: uppercase;
         }
 
-        /* Frase principal */
         .hero-phrase {
             font-family: 'Playfair Display', 'Cormorant Garamond', serif;
             font-size: 1.6rem;
@@ -175,180 +170,387 @@
             margin-bottom: 32px;
         }
 
-        /* ========== BOTÃO DESLIZANTE ========== */
-        .slide-btn-wrapper {
+        /* ========== BOTÃO PRINCIPAL (TOQUE) ========== */
+        .main-btn-wrapper {
             width: 100%;
             max-width: 370px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 28px;
         }
 
-        .slide-btn-track {
-            position: relative;
+        .main-btn {
             width: 100%;
-            height: 58px;
+            padding: 16px 24px;
             border-radius: 50px;
-            background: rgba(28,25,20,0.78);
-            border: 1.5px solid rgba(255,255,255,0.10);
+            background: rgba(28, 25, 20, 0.75);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            color: #D5CDC0;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.35s ease;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+            position: relative;
             overflow: hidden;
-            cursor: grab;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.03);
-            touch-action: none;
-            user-select: none;
-            transition: border-color 0.4s ease;
-        }
-        .slide-btn-track:active { cursor: grabbing; }
-        .slide-btn-track.completed { border-color: rgba(196,169,98,0.5); box-shadow: 0 4px 24px rgba(0,0,0,0.45), 0 0 50px rgba(180,150,100,0.2); }
-
-        .slide-fill {
-            position: absolute; top: 0; left: 0; height: 100%; width: 0%;
-            border-radius: 50px;
-            background: linear-gradient(90deg, rgba(180,150,100,0.35) 0%, rgba(196,169,98,0.48) 40%, rgba(200,175,105,0.55) 100%);
-            z-index: 1; pointer-events: none; transition: width 0.05s linear;
-        }
-        .slide-fill.animating { transition: width 0.35s cubic-bezier(0.34,1.56,0.64,1); }
-
-        .slide-btn-text {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
-            z-index: 3; pointer-events: none;
-            font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 500;
-            letter-spacing: 0.06em; color: #D5CDC0; white-space: nowrap;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.5); transition: color 0.4s ease, opacity 0.3s ease;
-        }
-        .slide-btn-text.success-text { opacity: 0; color: #F5F1EA; font-weight: 600; }
-
-        .slide-btn-thumb {
-            position: absolute; top: 50%; left: 6px; transform: translateY(-50%);
-            width: 46px; height: 46px; border-radius: 50%;
-            background: linear-gradient(145deg, #f5efe5 0%, #e0d5c5 40%, #d0c4b0 100%);
-            z-index: 5; pointer-events: none;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.5);
-            display: flex; align-items: center; justify-content: center;
-            transition: transform 0.05s linear, box-shadow 0.4s ease, background 0.4s ease;
-        }
-        .slide-btn-thumb.animating { transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease, background 0.4s ease; }
-        .slide-btn-thumb.completed-thumb {
-            background: linear-gradient(145deg, #fffdf5 0%, #f0e8d5 40%, #e5d8b8 100%);
-            box-shadow: 0 6px 24px rgba(0,0,0,0.55), 0 0 40px rgba(200,170,110,0.5), inset 0 1px 0 rgba(255,255,255,0.6);
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .thumb-arrow { width: 18px; height: 18px; color: #5c4a36; }
-        .thumb-arrow svg { width: 100%; height: 100%; }
-
-        .slide-hint {
-            font-family: 'Inter', sans-serif; font-size: 0.7rem; font-weight: 300;
-            letter-spacing: 0.1em; color: rgba(190,175,150,0.6); text-transform: uppercase;
-            animation: hintPulse 2.8s ease-in-out infinite;
+        .main-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.5s ease;
+            transform: translate(-50%, -50%);
+            z-index: 0;
         }
-        @keyframes hintPulse {
-            0%,100% { opacity: 0.45; } 50% { opacity: 0.85; }
+
+        .main-btn:active::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .main-btn:hover {
+            background: rgba(38, 34, 28, 0.8);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 6px 28px rgba(0,0,0,0.5);
+            color: #EAE4D8;
+        }
+
+        .main-btn:active {
+            transform: scale(0.96);
+            transition: transform 0.15s ease;
+        }
+
+        .main-btn .btn-text {
+            position: relative;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .main-btn .btn-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .main-btn.loading .btn-text {
+            opacity: 0;
+        }
+
+        .main-btn.loading .btn-icon {
+            transform: scale(0.8);
+        }
+
+        .main-btn .status-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            color: #C4A962;
+            opacity: 0;
+            white-space: nowrap;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+        }
+
+        .main-btn.loading .status-message {
+            opacity: 1;
+        }
+
+        .btn-hint {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            color: rgba(190,175,150,0.6);
+            text-transform: uppercase;
         }
 
         /* ========== BOTÕES SECUNDÁRIOS ========== */
         .secondary-buttons {
-            width: 100%; max-width: 370px; display: flex; gap: 12px; margin-bottom: 28px;
+            width: 100%;
+            max-width: 370px;
+            display: flex;
+            gap: 12px;
+            margin-bottom: 28px;
         }
 
         .btn-secondary {
-            flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
-            padding: 13px 16px; border-radius: 16px;
-            background: var(--glass-bg); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 13px 16px;
+            border-radius: 16px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
             border: 1px solid var(--glass-border);
-            color: #D5CDC0; font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 400;
-            letter-spacing: 0.04em; cursor: pointer; text-decoration: none;
-            transition: all 0.35s ease; box-shadow: 0 2px 16px rgba(0,0,0,0.2);
-            white-space: nowrap; position: relative; overflow: hidden;
+            color: #D5CDC0;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.35s ease;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
         }
+
         .btn-secondary::before {
-            content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0;
-            border-radius: 50%; background: rgba(255,255,255,0.06);
-            transition: all 0.5s ease; transform: translate(-50%,-50%); z-index: 0;
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            transition: all 0.5s ease;
+            transform: translate(-50%,-50%);
+            z-index: 0;
         }
-        .btn-secondary:active::before { width: 300px; height: 300px; }
-        .btn-secondary:hover { background: var(--glass-bg-hover); border-color: rgba(255,255,255,0.18); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.3); color: #EAE4D8; }
-        .btn-secondary:active { transform: scale(0.96); transition: transform 0.15s ease; }
-        .btn-secondary span { position: relative; z-index: 1; }
-        .btn-secondary .btn-icon { width: 17px; height: 17px; flex-shrink: 0; position: relative; z-index: 1; opacity: 0.8; }
+
+        .btn-secondary:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-secondary:hover {
+            background: var(--glass-bg-hover);
+            border-color: rgba(255,255,255,0.18);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+            color: #EAE4D8;
+        }
+
+        .btn-secondary:active {
+            transform: scale(0.96);
+            transition: transform 0.15s ease;
+        }
+
+        .btn-secondary span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-secondary .btn-icon {
+            width: 17px;
+            height: 17px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+            opacity: 0.8;
+        }
 
         /* ========== LOCALIZAÇÃO ========== */
         .location-section {
-            display: flex; align-items: flex-start; gap: 12px; width: 100%; max-width: 370px;
-            padding: 18px 20px; border-radius: 18px;
-            background: var(--glass-bg); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-            border: 1px solid var(--glass-border); margin-bottom: 18px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            width: 100%;
+            max-width: 370px;
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid var(--glass-border);
+            margin-bottom: 18px;
             box-shadow: 0 2px 16px rgba(0,0,0,0.2);
         }
-        .location-icon { width: 22px; height: 22px; flex-shrink: 0; margin-top: 2px; color: #C4A962; opacity: 0.8; }
-        .location-title { font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.03em; color: #E8E0D5; }
-        .location-detail { font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 300; letter-spacing: 0.03em; color: rgba(190,175,150,0.7); line-height: 1.5; }
+
+        .location-icon {
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            color: #C4A962;
+            opacity: 0.8;
+        }
+
+        .location-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            color: #E8E0D5;
+        }
+
+        .location-detail {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 300;
+            letter-spacing: 0.03em;
+            color: rgba(190,175,150,0.7);
+            line-height: 1.5;
+        }
 
         /* ========== CARD EXPERIENCE ========== */
         .experience-card {
-            width: 100%; max-width: 370px; padding: 20px 22px; border-radius: 20px;
-            background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border); box-shadow: 0 4px 24px rgba(0,0,0,0.25);
-            display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px;
+            width: 100%;
+            max-width: 370px;
+            padding: 20px 22px;
+            border-radius: 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 28px;
         }
-        .card-header { display: flex; align-items: center; gap: 10px; }
-        .card-icon { width: 26px; height: 26px; flex-shrink: 0; color: #C4A962; opacity: 0.85; }
-        .card-title { font-family: 'Playfair Display', 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 600; letter-spacing: 0.04em; color: #EAE4D8; }
-        .card-text { font-family: 'Inter', sans-serif; font-size: 0.74rem; font-weight: 300; letter-spacing: 0.03em; color: rgba(200,185,160,0.7); line-height: 1.55; }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-icon {
+            width: 26px;
+            height: 26px;
+            flex-shrink: 0;
+            color: #C4A962;
+            opacity: 0.85;
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', 'Cormorant Garamond', serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            color: #EAE4D8;
+        }
+
+        .card-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.74rem;
+            font-weight: 300;
+            letter-spacing: 0.03em;
+            color: rgba(200,185,160,0.7);
+            line-height: 1.55;
+        }
 
         /* ========== RODAPÉ ========== */
-        .footer-own { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 4px; }
-        .footer-brand { font-family: 'Playfair Display', 'Cormorant Garamond', serif; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.35em; color: rgba(210,195,170,0.55); }
-        .footer-tagline { font-family: 'Inter', sans-serif; font-size: 0.62rem; font-weight: 300; letter-spacing: 0.22em; color: rgba(180,160,135,0.4); text-transform: uppercase; }
-
-        /* Orbs sutis */
-        .glow-orb {
-            position: fixed; z-index: 7; pointer-events: none; border-radius: 50%;
-            filter: blur(70px); opacity: 0.12;
+        .footer-own {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            margin-top: 4px;
         }
-        .glow-orb.orb-1 { width: 160px; height: 160px; top: 20%; left: -5%; background: rgba(220,180,130,0.5); animation: orbFloat 12s ease-in-out infinite; }
-        .glow-orb.orb-2 { width: 130px; height: 130px; bottom: 25%; right: -8%; background: rgba(180,140,90,0.4); animation: orbFloat 14s ease-in-out infinite reverse; }
+
+        .footer-brand {
+            font-family: 'Playfair Display', 'Cormorant Garamond', serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.35em;
+            color: rgba(210,195,170,0.55);
+        }
+
+        .footer-tagline {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 300;
+            letter-spacing: 0.22em;
+            color: rgba(180,160,135,0.4);
+            text-transform: uppercase;
+        }
+
+        .glow-orb {
+            position: fixed;
+            z-index: 7;
+            pointer-events: none;
+            border-radius: 50%;
+            filter: blur(70px);
+            opacity: 0.12;
+        }
+
+        .glow-orb.orb-1 {
+            width: 160px;
+            height: 160px;
+            top: 20%;
+            left: -5%;
+            background: rgba(220,180,130,0.5);
+            animation: orbFloat 12s ease-in-out infinite;
+        }
+
+        .glow-orb.orb-2 {
+            width: 130px;
+            height: 130px;
+            bottom: 25%;
+            right: -8%;
+            background: rgba(180,140,90,0.4);
+            animation: orbFloat 14s ease-in-out infinite reverse;
+        }
+
         @keyframes orbFloat {
             0%,100% { transform: translate(0,0) scale(1); }
             50% { transform: translate(15px,-30px) scale(1.1); }
         }
 
         @media (max-width: 360px) {
-            .content-container { padding: 30px 16px 40px; }
-            .hero-phrase { font-size: 1.35rem; max-width: 280px; }
-            .slide-btn-track { height: 52px; }
-            .slide-btn-thumb { width: 40px; height: 40px; left: 5px; }
-            .slide-btn-text { font-size: 0.75rem; }
-            .btn-secondary { padding: 11px 10px; font-size: 0.72rem; border-radius: 14px; }
+            .content-container {
+                padding: 30px 16px 40px;
+            }
+            .hero-phrase {
+                font-size: 1.35rem;
+                max-width: 280px;
+            }
+            .btn-secondary {
+                padding: 11px 10px;
+                font-size: 0.72rem;
+                border-radius: 14px;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="scene-wrapper">
-    <!-- Fundo com imagem real -->
     <div class="bg-scene" aria-hidden="true"></div>
     <div class="bg-vignette" aria-hidden="true"></div>
-
-    <!-- Orbs de luz ambiente -->
     <div class="glow-orb orb-1" aria-hidden="true"></div>
     <div class="glow-orb orb-2" aria-hidden="true"></div>
-
-    <!-- Overlay escuro -->
     <div class="overlay" aria-hidden="true"></div>
 
-    <!-- Conteúdo principal -->
     <div class="content-container">
-
         <!-- Logo e cabeçalho -->
         <div class="logo-container">
-            <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="OWN Logo">
-                <circle cx="28" cy="50" r="18" class="logo-o"/>
-                <polyline points="52,34 60,62 68,34 76,62 84,34" class="logo-w"/>
-                <polyline points="52,62 52,34 78,62 78,34" class="logo-n"/>
-                <circle cx="90" cy="72" r="2.8" class="logo-dot"/>
-            </svg>
+            
             <h1 class="brand-name">OWN</h1>
             <p class="brand-tagline-mini">Do seu jeito, com toque OWN.</p>
         </div>
@@ -357,23 +559,23 @@
         <p class="hero-phrase">Muito mais do que vender óculos.&nbsp;Criamos experiências.</p>
         <p class="hero-sub">Óculos, lentes e atendimento personalizado onde você estiver.</p>
 
-        <!-- Botão deslizante -->
-        <div class="slide-btn-wrapper" id="slideBtnWrapper">
-            <div class="slide-btn-track" id="slideTrack" role="button" aria-label="Deslize para iniciar atendimento" tabindex="0">
-                <div class="slide-fill" id="slideFill"></div>
-                <span class="slide-btn-text" id="slideText">Viver a OWN Experience</span>
-                <span class="slide-btn-text success-text" id="slideSuccessText">Iniciando...</span>
-                <div class="slide-btn-thumb" id="slideThumb">
-                    <span class="thumb-arrow">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="9 6 15 12 9 18"/>
-                            <polyline points="15 6 21 12 15 18"/>
-                        </svg>
-                    </span>
-                </div>
-            </div>
-            <p class="slide-hint">Arraste para iniciar</p>
+        <!-- Botão principal (toque) -->
+        <div class="main-btn-wrapper">
+            <button class="main-btn" id="mainButton">
+                <span class="btn-text">Viver a OWN Experience</span>
+                <span class="btn-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 6 15 12 9 18"/>
+                        <polyline points="15 6 21 12 15 18"/>
+                    </svg>
+                </span>
+                <span class="status-message">Iniciando uma nova experiência…</span>
+            </button>
+            <p class="btn-hint">Toque para iniciar</p>
         </div>
+
+        <!-- Link oculto para disparo do WhatsApp -->
+        <a id="whatsappTrigger" href="https://wa.me/5581991865456?text=Olá!%20Vim%20pela%20OWN%20Experience." target="_blank" rel="noopener noreferrer" style="display:none;" aria-hidden="true"></a>
 
         <!-- Botões secundários -->
         <div class="secondary-buttons">
@@ -387,7 +589,8 @@
                 </span>
                 <span>Instagram</span>
             </a>
-             </div>
+          
+        </div>
 
         <!-- Atendimento -->
         <div class="location-section">
@@ -399,7 +602,7 @@
             </span>
             <div class="location-text">
                 <span class="location-title">Atendimento personalizado</span>
-                <span class="location-detail">Recife e Região Metropolitana.<br>Casa. Trabalho. Empresa.<br>Ou onde for mais confortável para você.</span>
+                
             </div>
         </div>
 
@@ -426,212 +629,39 @@
 
 <script>
 (function() {
-    const slideTrack = document.getElementById('slideTrack');
-    const slideFill = document.getElementById('slideFill');
-    const slideThumb = document.getElementById('slideThumb');
-    const slideText = document.getElementById('slideText');
-    const slideSuccessText = document.getElementById('slideSuccessText');
-    const slideHint = document.querySelector('.slide-hint');
-    const whatsappLink = document.getElementById('whatsappTrigger');
+    const mainButton = document.getElementById('mainButton');
+    const whatsappTrigger = document.getElementById('whatsappTrigger');
+    const btnHint = document.querySelector('.btn-hint');
+    let isOpening = false;
 
-    let isDragging = false;
-    let startClientX = 0;
-    let currentTranslateX = 0;
-    let maxSlideDistance = 0;
-    let thumbWidth = 0;
-    let trackWidth = 0;
-    const threshold = 0.82; // ligeiramente menor para facilitar no mobile
-    let completed = false;
-    let isAnimating = false;
+    mainButton.addEventListener('click', function(e) {
+        if (isOpening) return;
+        isOpening = true;
 
-    function recalc() {
-        const trackRect = slideTrack.getBoundingClientRect();
-        trackWidth = trackRect.width;
-        thumbWidth = slideThumb.getBoundingClientRect().width;
-        const pad = 6;
-        maxSlideDistance = trackWidth - thumbWidth - pad * 2;
-        if (maxSlideDistance < 0) maxSlideDistance = 0;
-    }
+        // Adiciona classe de loading
+        mainButton.classList.add('loading');
+        btnHint.textContent = 'Abrindo WhatsApp...';
+        btnHint.style.color = 'rgba(196,169,98,0.9)';
 
-    function setThumb(x, animate = false) {
-        const clamped = Math.max(0, Math.min(x, maxSlideDistance));
-        currentTranslateX = clamped;
+        // Dispara o clique no link oculto para abrir o WhatsApp
+        whatsappTrigger.click();
 
-        if (animate) {
-            slideThumb.classList.add('animating');
-            slideFill.classList.add('animating');
-        } else {
-            slideThumb.classList.remove('animating');
-            slideFill.classList.remove('animating');
-        }
-
-        slideThumb.style.transform = `translateY(-50%) translateX(${clamped}px)`;
-        slideFill.style.width = maxSlideDistance > 0 ? (clamped / maxSlideDistance * 100) + '%' : '0%';
-
-        const progress = maxSlideDistance > 0 ? clamped / maxSlideDistance : 0;
-        slideText.style.opacity = Math.max(0, 1 - progress * 1.3);
-        slideSuccessText.style.opacity = progress > 0.9 ? Math.min(1, (progress - 0.9) * 10) : 0;
-    }
-
-    function reset(animate = true) {
-        completed = false;
-        isAnimating = true;
-        slideTrack.classList.remove('completed');
-        slideThumb.classList.remove('completed-thumb');
-        setThumb(0, animate);
-        slideText.style.opacity = 1;
-        slideSuccessText.style.opacity = 0;
-
+        // Reseta o botão após um curto período (para quando o usuário voltar)
         setTimeout(() => {
-            slideThumb.classList.remove('animating');
-            slideFill.classList.remove('animating');
-            isAnimating = false;
-        }, animate ? 500 : 50);
-    }
-
-    function complete() {
-        if (completed) return;
-        completed = true;
-        isAnimating = true;
-        slideTrack.classList.add('completed');
-        slideThumb.classList.add('completed-thumb', 'animating');
-        slideFill.classList.add('animating');
-        setThumb(maxSlideDistance, true);
-        slideText.style.opacity = 0;
-        slideSuccessText.style.opacity = 1;
-        slideHint.textContent = 'Abrindo WhatsApp...';
-        slideHint.style.color = 'rgba(196,169,98,0.9)';
-
-        // Disparo IMEDIATO do link (evita bloqueio de popup)
-        whatsappLink.click();
-
-        // Reseta após um tempo (para quando o usuário voltar)
-        setTimeout(() => {
-            reset(true);
-            slideHint.textContent = 'Arraste para iniciar';
-            slideHint.style.color = 'rgba(190,175,150,0.6)';
-        }, 1200);
-    }
-
-    // ========== TOUCH EVENTS (prioridade para iOS) ==========
-    function handleTouchStart(e) {
-        if (completed || isAnimating) return;
-        recalc();
-        isDragging = true;
-        startClientX = e.touches[0].clientX;
-        slideThumb.classList.remove('animating');
-        slideFill.classList.remove('animating');
-        e.preventDefault(); // essencial para evitar scroll
-    }
-
-    function handleTouchMove(e) {
-        if (!isDragging) return;
-        const clientX = e.touches[0].clientX;
-        const deltaX = clientX - startClientX;
-        setThumb(Math.max(0, Math.min(deltaX, maxSlideDistance)), false);
-        e.preventDefault();
-    }
-
-    function handleTouchEnd(e) {
-        if (!isDragging) return;
-        isDragging = false;
-
-        const progress = maxSlideDistance > 0 ? currentTranslateX / maxSlideDistance : 0;
-        // Tolerância extra: se o dedo soltou muito perto do final, completa
-        if ((progress >= threshold || currentTranslateX >= maxSlideDistance - 5) && !completed) {
-            complete();
-        } else if (!completed) {
-            reset(true);
-        }
-    }
-
-    // Adiciona listeners touch com { passive: false } para permitir preventDefault
-    slideTrack.addEventListener('touchstart', handleTouchStart, { passive: false });
-    slideTrack.addEventListener('touchmove', handleTouchMove, { passive: false });
-    slideTrack.addEventListener('touchend', handleTouchEnd);
-    slideTrack.addEventListener('touchcancel', handleTouchEnd);
-
-    // ========== MOUSE EVENTS (desktop) ==========
-    slideTrack.addEventListener('mousedown', function(e) {
-        if (completed || isAnimating) return;
-        recalc();
-        isDragging = true;
-        startClientX = e.clientX;
-        slideThumb.classList.remove('animating');
-        slideFill.classList.remove('animating');
-        e.preventDefault();
+            mainButton.classList.remove('loading');
+            btnHint.textContent = 'Toque para iniciar';
+            btnHint.style.color = 'rgba(190,175,150,0.6)';
+            isOpening = false;
+        }, 2500);
     });
 
-    document.addEventListener('mousemove', function(e) {
-        if (!isDragging) return;
-        const deltaX = e.clientX - startClientX;
-        setThumb(Math.max(0, Math.min(deltaX, maxSlideDistance)), false);
-        e.preventDefault();
-    });
-
-    document.addEventListener('mouseup', function(e) {
-        if (!isDragging) return;
-        isDragging = false;
-        const progress = maxSlideDistance > 0 ? currentTranslateX / maxSlideDistance : 0;
-        if ((progress >= threshold || currentTranslateX >= maxSlideDistance - 5) && !completed) {
-            complete();
-        } else if (!completed) {
-            reset(true);
-        }
-    });
-
-    // Keyboard
-    slideTrack.addEventListener('keydown', function(e) {
-        if ((e.key === 'Enter' || e.key === ' ') && !completed && !isAnimating) {
+    // Para acessibilidade: permite ativar com Enter ou Espaço
+    mainButton.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            recalc();
-            let pos = 0;
-            isAnimating = true;
-            const step = maxSlideDistance / 20;
-            const interval = setInterval(() => {
-                pos += step;
-                if (pos >= maxSlideDistance) {
-                    pos = maxSlideDistance;
-                    clearInterval(interval);
-                    setThumb(pos, false);
-                    if (maxSlideDistance > 0 && pos / maxSlideDistance >= threshold) {
-                        complete();
-                    } else {
-                        reset(true);
-                    }
-                } else {
-                    setThumb(pos, false);
-                }
-            }, 25);
+            mainButton.click();
         }
     });
-
-    // Init
-    function init() {
-        recalc();
-        setThumb(0, false);
-        slideText.style.opacity = 1;
-        slideSuccessText.style.opacity = 0;
-        slideHint.textContent = 'Arraste para iniciar';
-        slideHint.style.color = 'rgba(190,175,150,0.6)';
-    }
-    init();
-
-    window.addEventListener('resize', () => {
-        if (!isDragging && !completed && !isAnimating) {
-            recalc();
-            setThumb(0, false);
-        }
-    });
-    window.addEventListener('orientationchange', () => {
-        setTimeout(() => {
-            if (!isDragging && !completed && !isAnimating) {
-                recalc();
-                setThumb(0, false);
-            }
-        }, 500);
-    });
-
 })();
 </script>
 </body>
