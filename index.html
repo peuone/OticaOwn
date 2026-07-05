@@ -432,6 +432,7 @@
     const slideText = document.getElementById('slideText');
     const slideSuccessText = document.getElementById('slideSuccessText');
     const slideHint = document.querySelector('.slide-hint');
+    const whatsappLink = document.getElementById('whatsappTrigger');
 
     let isDragging = false;
     let startClientX = 0;
@@ -439,21 +440,15 @@
     let maxSlideDistance = 0;
     let thumbWidth = 0;
     let trackWidth = 0;
-    let trackLeft = 0; // Posição do track na tela
-    const threshold = 0.85;
+    const threshold = 0.82; // ligeiramente menor para facilitar no mobile
     let completed = false;
     let isAnimating = false;
-    let pointerId = null;
-
-    // WhatsApp
-    const WHATSAPP_URL = 'https://wa.me/5581991865456?text=' + encodeURIComponent('Olá! Vim pela OWN Experience. Gostaria de saber mais.');
 
     function recalc() {
         const trackRect = slideTrack.getBoundingClientRect();
         trackWidth = trackRect.width;
-        trackLeft = trackRect.left;
         thumbWidth = slideThumb.getBoundingClientRect().width;
-        const pad = 6; // padding do track
+        const pad = 6;
         maxSlideDistance = trackWidth - thumbWidth - pad * 2;
         if (maxSlideDistance < 0) maxSlideDistance = 0;
     }
@@ -461,7 +456,7 @@
     function setThumb(x, animate = false) {
         const clamped = Math.max(0, Math.min(x, maxSlideDistance));
         currentTranslateX = clamped;
-        
+
         if (animate) {
             slideThumb.classList.add('animating');
             slideFill.classList.add('animating');
@@ -469,11 +464,10 @@
             slideThumb.classList.remove('animating');
             slideFill.classList.remove('animating');
         }
-        
+
         slideThumb.style.transform = `translateY(-50%) translateX(${clamped}px)`;
-        const fillPercent = maxSlideDistance > 0 ? (clamped / maxSlideDistance) * 100 : 0;
-        slideFill.style.width = fillPercent + '%';
-        
+        slideFill.style.width = maxSlideDistance > 0 ? (clamped / maxSlideDistance * 100) + '%' : '0%';
+
         const progress = maxSlideDistance > 0 ? clamped / maxSlideDistance : 0;
         slideText.style.opacity = Math.max(0, 1 - progress * 1.3);
         slideSuccessText.style.opacity = progress > 0.9 ? Math.min(1, (progress - 0.9) * 10) : 0;
@@ -487,7 +481,7 @@
         setThumb(0, animate);
         slideText.style.opacity = 1;
         slideSuccessText.style.opacity = 0;
-        
+
         setTimeout(() => {
             slideThumb.classList.remove('animating');
             slideFill.classList.remove('animating');
@@ -496,6 +490,7 @@
     }
 
     function complete() {
+        if (completed) return;
         completed = true;
         isAnimating = true;
         slideTrack.classList.add('completed');
@@ -506,131 +501,79 @@
         slideSuccessText.style.opacity = 1;
         slideHint.textContent = 'Abrindo WhatsApp...';
         slideHint.style.color = 'rgba(196,169,98,0.9)';
-        
+
+        // Disparo IMEDIATO do link (evita bloqueio de popup)
+        whatsappLink.click();
+
+        // Reseta após um tempo (para quando o usuário voltar)
         setTimeout(() => {
-            window.open(WHATSAPP_URL, '_blank', 'noopener,noreferrer');
-            setTimeout(() => {
-                reset(true);
-                slideHint.textContent = 'Arraste para iniciar';
-                slideHint.style.color = 'rgba(190,175,150,0.6)';
-            }, 800);
-        }, 350);
-    }
-
-    // ========== POINTER EVENTS (melhor compatibilidade iOS) ==========
-    
-    function handlePointerDown(e) {
-        if (completed || isAnimating) return;
-        
-        // Captura o pointer para garantir tracking contínuo
-        slideTrack.setPointerCapture(e.pointerId);
-        pointerId = e.pointerId;
-        
-        recalc();
-        isDragging = true;
-        startClientX = e.clientX;
-        
-        slideThumb.classList.remove('animating');
-        slideFill.classList.remove('animating');
-        slideTrack.style.cursor = 'grabbing';
-        
-        // Previne scroll apenas durante o drag
-        e.preventDefault();
-    }
-
-    function handlePointerMove(e) {
-        if (!isDragging || e.pointerId !== pointerId) return;
-        
-        const deltaX = e.clientX - startClientX;
-        const newPos = Math.max(0, Math.min(deltaX, maxSlideDistance));
-        setThumb(newPos, false);
-        
-        e.preventDefault();
-    }
-
-    function handlePointerUp(e) {
-        if (!isDragging || e.pointerId !== pointerId) return;
-        
-        isDragging = false;
-        slideTrack.style.cursor = 'grab';
-        pointerId = null;
-        
-        // Libera o pointer capture
-        try {
-            slideTrack.releasePointerCapture(e.pointerId);
-        } catch (err) {
-            // já foi liberado
-        }
-        
-        const progress = maxSlideDistance > 0 ? currentTranslateX / maxSlideDistance : 0;
-        
-        if (progress >= threshold && !completed) {
-            complete();
-        } else if (!completed) {
             reset(true);
-        }
-        
-        e.preventDefault();
+            slideHint.textContent = 'Arraste para iniciar';
+            slideHint.style.color = 'rgba(190,175,150,0.6)';
+        }, 1200);
     }
 
-    function handlePointerCancel(e) {
-        if (!isDragging) return;
-        
-        isDragging = false;
-        slideTrack.style.cursor = 'grab';
-        pointerId = null;
-        
-        try {
-            slideTrack.releasePointerCapture(e.pointerId);
-        } catch (err) {}
-        
-        if (!completed) {
-            reset(true);
-        }
-    }
-
-    // ========== EVENT LISTENERS ==========
-    
-    // Pointer Events (modernos, funcionam bem no iOS 13+)
-    slideTrack.addEventListener('pointerdown', handlePointerDown);
-    slideTrack.addEventListener('pointermove', handlePointerMove);
-    slideTrack.addEventListener('pointerup', handlePointerUp);
-    slideTrack.addEventListener('pointercancel', handlePointerCancel);
-    slideTrack.addEventListener('pointerleave', handlePointerUp); // Se o dedo sair da tela
-    
-    // Fallback para touch events em iOS muito antigo (improvavelmente necessário, mas seguro)
-    slideTrack.addEventListener('touchstart', function(e) {
-        // Se pointer events já estão lidando, não faz nada
-        if (window.PointerEvent) return;
-        
+    // ========== TOUCH EVENTS (prioridade para iOS) ==========
+    function handleTouchStart(e) {
         if (completed || isAnimating) return;
         recalc();
         isDragging = true;
         startClientX = e.touches[0].clientX;
         slideThumb.classList.remove('animating');
         slideFill.classList.remove('animating');
-        slideTrack.style.cursor = 'grabbing';
-        e.preventDefault();
-    }, { passive: false });
-    
-    slideTrack.addEventListener('touchmove', function(e) {
-        if (window.PointerEvent) return;
+        e.preventDefault(); // essencial para evitar scroll
+    }
+
+    function handleTouchMove(e) {
         if (!isDragging) return;
-        
-        const deltaX = e.touches[0].clientX - startClientX;
+        const clientX = e.touches[0].clientX;
+        const deltaX = clientX - startClientX;
         setThumb(Math.max(0, Math.min(deltaX, maxSlideDistance)), false);
         e.preventDefault();
-    }, { passive: false });
-    
-    slideTrack.addEventListener('touchend', function(e) {
-        if (window.PointerEvent) return;
+    }
+
+    function handleTouchEnd(e) {
         if (!isDragging) return;
-        
         isDragging = false;
-        slideTrack.style.cursor = 'grab';
+
         const progress = maxSlideDistance > 0 ? currentTranslateX / maxSlideDistance : 0;
-        
-        if (progress >= threshold && !completed) {
+        // Tolerância extra: se o dedo soltou muito perto do final, completa
+        if ((progress >= threshold || currentTranslateX >= maxSlideDistance - 5) && !completed) {
+            complete();
+        } else if (!completed) {
+            reset(true);
+        }
+    }
+
+    // Adiciona listeners touch com { passive: false } para permitir preventDefault
+    slideTrack.addEventListener('touchstart', handleTouchStart, { passive: false });
+    slideTrack.addEventListener('touchmove', handleTouchMove, { passive: false });
+    slideTrack.addEventListener('touchend', handleTouchEnd);
+    slideTrack.addEventListener('touchcancel', handleTouchEnd);
+
+    // ========== MOUSE EVENTS (desktop) ==========
+    slideTrack.addEventListener('mousedown', function(e) {
+        if (completed || isAnimating) return;
+        recalc();
+        isDragging = true;
+        startClientX = e.clientX;
+        slideThumb.classList.remove('animating');
+        slideFill.classList.remove('animating');
+        e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', function(e) {
+        if (!isDragging) return;
+        const deltaX = e.clientX - startClientX;
+        setThumb(Math.max(0, Math.min(deltaX, maxSlideDistance)), false);
+        e.preventDefault();
+    });
+
+    document.addEventListener('mouseup', function(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        const progress = maxSlideDistance > 0 ? currentTranslateX / maxSlideDistance : 0;
+        if ((progress >= threshold || currentTranslateX >= maxSlideDistance - 5) && !completed) {
             complete();
         } else if (!completed) {
             reset(true);
@@ -645,7 +588,7 @@
             let pos = 0;
             isAnimating = true;
             const step = maxSlideDistance / 20;
-            const interval = setInterval(function() {
+            const interval = setInterval(() => {
                 pos += step;
                 if (pos >= maxSlideDistance) {
                     pos = maxSlideDistance;
@@ -663,34 +606,25 @@
         }
     });
 
-    // Inicialização
+    // Init
     function init() {
         recalc();
         setThumb(0, false);
         slideText.style.opacity = 1;
         slideSuccessText.style.opacity = 0;
-        slideTrack.style.cursor = 'grab';
         slideHint.textContent = 'Arraste para iniciar';
         slideHint.style.color = 'rgba(190,175,150,0.6)';
     }
-    
     init();
 
-    // Recalcular em resize
-    let resizeTimeout;
-    window.addEventListener('resize', function() {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(function() {
-            if (!isDragging && !completed && !isAnimating) {
-                recalc();
-                setThumb(0, false);
-            }
-        }, 300);
+    window.addEventListener('resize', () => {
+        if (!isDragging && !completed && !isAnimating) {
+            recalc();
+            setThumb(0, false);
+        }
     });
-    
-    // Recalcular em orientationchange (iOS)
-    window.addEventListener('orientationchange', function() {
-        setTimeout(function() {
+    window.addEventListener('orientationchange', () => {
+        setTimeout(() => {
             if (!isDragging && !completed && !isAnimating) {
                 recalc();
                 setThumb(0, false);
