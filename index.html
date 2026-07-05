@@ -253,12 +253,9 @@
             transition: transform 0.3s ease;
         }
 
-        .main-btn.loading .btn-text {
-            opacity: 0;
-        }
-
+        .main-btn.loading .btn-text,
         .main-btn.loading .btn-icon {
-            transform: scale(0.8);
+            opacity: 0;
         }
 
         .main-btn .status-message {
@@ -289,6 +286,7 @@
             letter-spacing: 0.1em;
             color: rgba(190,175,150,0.6);
             text-transform: uppercase;
+            transition: color 0.3s ease;
         }
 
         /* ========== BOTÕES SECUNDÁRIOS ========== */
@@ -550,7 +548,7 @@
     <div class="content-container">
         <!-- Logo e cabeçalho -->
         <div class="logo-container">
-            
+           
             <h1 class="brand-name">OWN</h1>
             <p class="brand-tagline-mini">Do seu jeito, com toque OWN.</p>
         </div>
@@ -569,7 +567,7 @@
                         <polyline points="15 6 21 12 15 18"/>
                     </svg>
                 </span>
-                <span class="status-message">Iniciando uma nova experiência…</span>
+                <span class="status-message">Estamos preparando uma nova experiência…</span>
             </button>
             <p class="btn-hint">Toque para iniciar</p>
         </div>
@@ -589,7 +587,7 @@
                 </span>
                 <span>Instagram</span>
             </a>
-          
+                           
         </div>
 
         <!-- Atendimento -->
@@ -638,24 +636,26 @@
         if (isOpening) return;
         isOpening = true;
 
-        // Adiciona classe de loading
+        // Efeito de carregamento no botão
         mainButton.classList.add('loading');
-        btnHint.textContent = 'Abrindo WhatsApp...';
+        btnHint.textContent = 'Aguarde um instante…';
         btnHint.style.color = 'rgba(196,169,98,0.9)';
 
-        // Dispara o clique no link oculto para abrir o WhatsApp
-        whatsappTrigger.click();
-
-        // Reseta o botão após um curto período (para quando o usuário voltar)
+        // Após 3 segundos, abre o WhatsApp
         setTimeout(() => {
-            mainButton.classList.remove('loading');
-            btnHint.textContent = 'Toque para iniciar';
-            btnHint.style.color = 'rgba(190,175,150,0.6)';
-            isOpening = false;
-        }, 2500);
+            whatsappTrigger.click();
+            
+            // Reseta o botão depois de um tempo (quando usuário voltar)
+            setTimeout(() => {
+                mainButton.classList.remove('loading');
+                btnHint.textContent = 'Toque para iniciar';
+                btnHint.style.color = 'rgba(190,175,150,0.6)';
+                isOpening = false;
+            }, 2500);
+        }, 3000);
     });
 
-    // Para acessibilidade: permite ativar com Enter ou Espaço
+    // Acessibilidade: teclado
     mainButton.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
