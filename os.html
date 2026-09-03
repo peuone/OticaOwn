@@ -66,13 +66,14 @@
 </div>
 <article id="printSheet" aria-hidden="true"></article>
 <template id="productTemplate"><div class="product-row"><div class="product-field"><label>Lente / produto</label><select class="product-select"></select></div><div class="product-field"><label>Detalhe</label><input class="product-detail" placeholder="Índice, tratamento..."></div><div class="product-field"><label>Qtd.</label><input class="product-qty" type="number" min="1" value="1"></div><div class="product-field"><label>Valor</label><input class="product-price" type="number" min="0" step="0.01"></div><div class="remove-wrap"><button class="icon-btn remove-product" type="button" aria-label="Remover item">×</button></div><div class="product-total" style="grid-column:1/-1">R$ 0,00</div></div></template>
+<script src="catalogo.js"></script>
 <script>
   const ACCESS_HASH='11539fdb3ee7be0d6655af42596371cafe74885e109b8e7c966e30d53bc4988a';
   async function hashText(text){const data=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text));return [...new Uint8Array(data)].map(b=>b.toString(16).padStart(2,'0')).join('')}
   function authorize(){document.body.classList.add('authorized');sessionStorage.setItem('own:staff-authorized','yes')}
   if(sessionStorage.getItem('own:staff-authorized')==='yes')authorize();
   document.querySelector('#accessForm').addEventListener('submit',async event=>{event.preventDefault();const input=document.querySelector('#accessCode'),error=document.querySelector('#accessError');if(await hashText(input.value.trim())===ACCESS_HASH){error.textContent='';authorize()}else{error.textContent='Código incorreto. Tente novamente.';input.select()}});
-  const catalog=[['Selecione uma opção',0],['Lente visão simples CR-39',180],['Lente visão simples antirreflexo',320],['Lente visão simples filtro azul',390],['Lente policarbonato antirreflexo',520],['Lente alto índice 1.67',890],['Lente fotossensível',760],['Lente multifocal standard',890],['Lente multifocal digital',1490],['Lente multifocal premium',2490],['Lente ocupacional',690],['Armação',0],['Serviço de montagem',80],['Outro item',0]];
+  const catalog=window.OWN_CATALOG||[['Outro item (valor manual)',0]];
   const money=new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}),products=document.querySelector('#products'),template=document.querySelector('#productTemplate');
   const localDate=d=>{const z=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`};
   const osNumber=document.querySelector('#osNumber');
