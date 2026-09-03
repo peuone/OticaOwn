@@ -31,7 +31,7 @@
 <body>
 <section class="access-gate" aria-labelledby="accessTitle"><form class="access-box" id="accessForm"><span class="brand">OWN</span><h1 id="accessTitle">Área interna</h1><p>Informe o código de acesso da equipe para abrir o gerador de ordens de serviço.</p><label for="accessCode">Código de acesso</label><input id="accessCode" type="password" autocomplete="current-password" required autofocus><button class="btn btn-primary" type="submit">Entrar no gerador</button><div class="access-error" id="accessError" role="alert"></div></form></section>
 <div class="app">
-  <header class="topbar"><div class="topbar-inner"><a class="brand" href="index.html">OWN</a><span class="crumb">Painel / Nova ordem de serviço</span><div class="top-actions"><a class="btn btn-light" href="index.html">← Voltar</a><button class="btn btn-primary" type="button" id="topPrint">Imprimir / PDF</button></div></div></header>
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="index.html">OWN</a><span class="crumb">Painel / Nova ordem de serviço</span><div class="top-actions"><a class="btn btn-soft" href="venda.html">Venda guiada</a><a class="btn btn-light" href="index.html">← Voltar</a><button class="btn btn-primary" type="button" id="topPrint">Imprimir / PDF</button></div></div></header>
   <main>
     <div class="page-heading"><div><h1>Nova ordem de serviço</h1><p>Preencha os dados, confira os valores e gere o talão do cliente.</p></div><div class="os-number">OS <strong id="osNumber"></strong></div></div>
     <form id="osForm" class="form-stack">
@@ -116,5 +116,6 @@
   document.querySelector('#sendTelegram').addEventListener('click',()=>{if(!saveCurrentOs(false))return;const client=value('name')||'Cliente não informado',message=`Nova OS OWN\nNúmero: ${osNumber.textContent}\nCliente: ${client}\nTotal: ${document.querySelector('#grandTotal').textContent}`;window.open(`https://t.me/share/url?url=${encodeURIComponent('https://www.ownloja.com.br/')}&text=${encodeURIComponent(message)}`,'_blank','noopener,noreferrer')});
   document.querySelector('#newOs').addEventListener('click',()=>{if(confirm(`Finalizar a OS ${osNumber.textContent} e iniciar uma nova venda?`)){if(value('name')||value('phone')){const data=snapshot();localStorage.setItem(`own:os:${data.number}`,JSON.stringify(data))}document.querySelector('#osForm').reset();products.innerHTML='';payments.innerHTML='';addProduct();addPayment();assignNewOsNumber();document.querySelector('#orderDate').value=localDate(new Date());document.querySelector('#adjustValue').value='';calculate();scrollTo({top:0,behavior:'smooth'})}});
   addProduct();addPayment();
+  const suggestedProduct=localStorage.getItem('own:suggested-product');if(suggestedProduct){const suggestion=JSON.parse(suggestedProduct),row=products.firstElementChild,option=[...row.querySelector('.product-select').options].find(o=>o.text===suggestion.name);if(option){option.selected=true;row.querySelector('.product-price').value=option.value;calculate()}localStorage.removeItem('own:suggested-product')}
 </script>
 </body></html>
