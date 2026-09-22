@@ -279,12 +279,13 @@
             width: 100%;
             max-width: 370px;
             display: flex;
+            flex-wrap: wrap;
             gap: 12px;
             margin-bottom: 32px;
         }
 
         .btn-secondary {
-            flex: 1;
+            flex: 1 1 150px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -814,6 +815,10 @@
 
         <!-- Botões secundários -->
         <div class="secondary-buttons">
+            <a href="pesquisa.html" class="btn-secondary" aria-label="Descubra qual lente combina com você">
+                <span class="btn-icon">✦</span>
+                <span>Descobrir minha lente</span>
+            </a>
             <a href="https://instagram.com/ownloja" target="_blank" rel="noopener noreferrer" class="btn-secondary" aria-label="Visite nosso Instagram">
                 <span class="btn-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
