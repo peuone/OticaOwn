@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="116" fill="#191a16"/>
+  <circle cx="405" cy="107" r="53" fill="#d9ec71"/>
+  <path d="M118 326c24-94 75-142 138-142s114 48 138 142" fill="none" stroke="#f5f1e9" stroke-width="22" stroke-linecap="round"/>
+  <circle cx="181" cy="270" r="67" fill="none" stroke="#f5f1e9" stroke-width="18"/>
+  <circle cx="331" cy="270" r="67" fill="none" stroke="#f5f1e9" stroke-width="18"/>
+  <path d="M248 267h16" stroke="#f5f1e9" stroke-width="18" stroke-linecap="round"/>
+  <text x="256" y="419" text-anchor="middle" fill="#f5f1e9" font-family="Georgia,serif" font-size="67" font-weight="700" letter-spacing="15">OWN</text>
+</svg>

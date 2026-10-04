@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#191a16">
+  <meta name="description" content="Central de acesso às ferramentas de atendimento e vendas da OWN.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="OWN">
+  <title>Aplicativo OWN</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/own-icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/own-icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--ink:#191a16;--paper:#f5f1e9;--card:#fffdf8;--muted:#716d64;--lime:#d9ec71;--line:#ded8cc;--safe-top:env(safe-area-inset-top);--safe-bottom:env(safe-area-inset-bottom)}
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;min-height:100%;background:var(--paper);color:var(--ink);font-family:"DM Sans",sans-serif}body{min-height:100vh;min-height:100dvh;background:radial-gradient(circle at 85% 5%,#d9ec7140,transparent 28%),var(--paper)}
+    .app{width:min(1050px,100%);min-height:100dvh;margin:auto;padding:calc(22px + var(--safe-top)) 22px calc(28px + var(--safe-bottom));display:flex;flex-direction:column}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:12px}.brand img{width:54px;height:54px;border-radius:16px;box-shadow:0 8px 24px #191a1620}.brand strong{display:block;font:700 25px "Playfair Display",serif;letter-spacing:.25em}.brand small{display:block;color:var(--muted);margin-top:2px}
+    .install{border:0;border-radius:13px;padding:12px 16px;background:var(--ink);color:#fff;font-weight:700;cursor:pointer;display:none}.install.show{display:block}
+    main{flex:1;display:grid;align-content:center;padding:42px 0}.intro{max-width:690px;margin-bottom:28px}.eyebrow{text-transform:uppercase;letter-spacing:.18em;font-size:11px;font-weight:700;color:#82931f}.intro h1{font:700 clamp(38px,7vw,70px)/.98 "Playfair Display",serif;margin:12px 0}.intro p{color:var(--muted);font-size:17px;line-height:1.55;margin:0}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.tool{min-height:190px;border:1px solid var(--line);border-radius:24px;background:var(--card);padding:22px;color:inherit;text-decoration:none;display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 12px 35px #2a271d0a;transition:transform .18s,border-color .18s}.tool:active{transform:scale(.98)}.tool:after{content:'→';position:absolute;right:20px;top:18px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#f0ede5;font-size:20px}.icon{width:50px;height:50px;border-radius:15px;background:#24261f;color:var(--lime);display:grid;place-items:center;font-size:23px;margin-bottom:auto}.tool h2{font:700 25px "Playfair Display",serif;margin:22px 0 5px}.tool p{color:var(--muted);line-height:1.45;margin:0;font-size:14px}.tool.primary{background:var(--ink);color:#fff;border-color:var(--ink)}.tool.primary:after{background:var(--lime);color:var(--ink)}.tool.primary p{color:#c9cac3}
+    footer{display:flex;justify-content:space-between;gap:15px;color:var(--muted);font-size:12px;padding-top:18px}.status{display:flex;align-items:center;gap:7px}.dot{width:8px;height:8px;border-radius:50%;background:#82931f}
+    .ios-help{position:fixed;inset:0;background:#11130ec9;display:none;place-items:end center;padding:20px;z-index:10}.ios-help.show{display:grid}.help-card{width:min(440px,100%);background:#fffdf8;border-radius:24px;padding:24px}.help-card h2{font:700 27px "Playfair Display",serif;margin:0 0 10px}.help-card p{color:var(--muted);line-height:1.55}.help-card button{width:100%;border:0;border-radius:12px;padding:13px;background:var(--ink);color:#fff;font-weight:700}
+    @media(min-width:800px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.tool{min-height:245px}.tool:hover{transform:translateY(-4px);border-color:#b9c653}}
+    @media(max-width:560px){.app{padding-left:14px;padding-right:14px}.brand img{width:46px;height:46px;border-radius:13px}.brand strong{font-size:20px}.brand small{font-size:11px}.install{padding:10px 11px;font-size:12px}main{padding:30px 0}.intro{margin-bottom:20px}.intro h1{font-size:42px}.intro p{font-size:14px}.grid{gap:10px}.tool{min-height:170px;padding:16px;border-radius:19px}.tool:after{right:14px;top:14px;width:31px;height:31px}.icon{width:43px;height:43px;border-radius:12px}.tool h2{font-size:21px;margin-top:18px}.tool p{font-size:12px}footer{display:block}.status{margin-bottom:5px}}
+    @media(max-width:370px){.grid{grid-template-columns:1fr}.tool{min-height:140px}.brand small{display:none}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="brand"><img src="icons/own-icon.svg" alt="Símbolo OWN"><span><strong>OWN</strong><small>Ferramentas da loja</small></span></div>
+      <button class="install" id="installButton" type="button">Instalar aplicativo</button>
+    </header>
+    <main>
+      <div class="intro"><div class="eyebrow">Central OWN</div><h1>Tudo o que você usa em um só lugar.</h1><p>Abra rapidamente as ferramentas de atendimento, indicação de lentes, orçamento e ordem de serviço.</p></div>
+      <nav class="grid" aria-label="Ferramentas OWN">
+        <a class="tool primary" href="os.html"><span class="icon">OS</span><h2>Nova OS</h2><p>Cadastre cliente, receita, produtos, pagamentos e gere o PDF.</p></a>
+        <a class="tool" href="pesquisa.html"><span class="icon">?</span><h2>Pesquisa</h2><p>Entenda a rotina do cliente e encontre as lentes mais adequadas.</p></a>
+        <a class="tool" href="venda.html"><span class="icon">R$</span><h2>Venda</h2><p>Monte três opções, ajuste produtos e prepare a mensagem comercial.</p></a>
+        <a class="tool" href="central-vendas.html"><span class="icon">◉</span><h2>Central de vendas</h2><p>Use demonstrações, atendimento guiado e tabelas dos fabricantes.</p></a>
+      </nav>
+    </main>
+    <footer><span class="status"><i class="dot"></i><span id="connection">Disponível</span></span><span>OWN · acesso interno</span></footer>
+  </div>
+  <div class="ios-help" id="iosHelp"><div class="help-card"><h2>Instalar no iPhone ou iPad</h2><p>No Safari, toque em <strong>Compartilhar</strong> e depois em <strong>Adicionar à Tela de Início</strong>.</p><button type="button" id="closeHelp">Entendi</button></div></div>
+  <script>
+    if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js'));
+    let installPrompt=null;const installButton=document.querySelector('#installButton'),iosHelp=document.querySelector('#iosHelp');
+    const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+    const isiOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+    addEventListener('beforeinstallprompt',event=>{event.preventDefault();installPrompt=event;if(!standalone)installButton.classList.add('show')});
+    installButton.onclick=async()=>{if(installPrompt){installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;installButton.classList.remove('show')}else if(isiOS)iosHelp.classList.add('show')};
+    if(isiOS&&!standalone){installButton.textContent='Como instalar';installButton.classList.add('show')}
+    document.querySelector('#closeHelp').onclick=()=>iosHelp.classList.remove('show');iosHelp.onclick=event=>{if(event.target===iosHelp)iosHelp.classList.remove('show')};
+    function connection(){document.querySelector('#connection').textContent=navigator.onLine?'Disponível':'Modo offline'}addEventListener('online',connection);addEventListener('offline',connection);connection();
+  </script>
+</body>
+</html>
