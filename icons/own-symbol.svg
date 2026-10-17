@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
-  <title id="title">Símbolo OWN</title>
-  <rect width="512" height="512" rx="72" fill="#f5f1e9"/>
-  <g fill="none" stroke="#2d2d2d" stroke-width="18" stroke-linejoin="miter" stroke-linecap="square">
-    <path d="M237 43 397 167v176L237 438 79 343V167Z"/>
-    <path d="m237 126 112 68v124l-112 65-111-65V194Z"/>
-    <path d="m237 43v83M397 167l-48 27M397 343l-48-25M237 438v-55M79 343l47-25M79 167l47 27"/>
-  </g>
-</svg>
